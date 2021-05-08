@@ -6,13 +6,15 @@ import flask
 def endpoint(func):
     """Endpoint used for all API routes.
 
+    Gracefully responds to requests that raise exceptions.
+
     :param func [function]: function to route request to
+    :returns [tuple[dict, int]]: JSON response in format (response, status code)
     """
     try:
-        response = func()
+        return _success(func())
     except Exception as error:
         return _failure(repr(error))
-    return _success(response)
 
 def parse(name, type, optional=False):
     """Parse request parameter.
