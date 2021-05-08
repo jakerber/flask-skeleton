@@ -1,26 +1,21 @@
 """User API endpoints."""
+import database
 from api import common
-from db import database
 
 def getUsers():
-    """Get users.
+    """Get users by phone number.
 
     :field phone [int]: user phone number
     :returns [dict|list]: user or list of users
     :raises RuntimeError: if no users exists with the phone number
     """
     phone = common.parse('phone', int, optional=True)
-
-    # fetch a single user
     if phone:
         user = database.User.query.get(phone)
         if not user:
             raise RuntimeError(f'user {phone} does not exist')
         return user.dict()
-
-    # fetch all users
-    users = database.User.query.all()
-    return [user.dict() for user in users]
+    return [user.dict() for user in database.User.query.all()]
 
 def createUser():
     """Create a user.
@@ -33,12 +28,8 @@ def createUser():
     phone = common.parse('phone', int)
     name = common.parse('name', str)
     password = common.parse('password', str)
-
-    # create and insert a user
-    newUser = database.User(
-        phone=phone,
-        name=name,
-        password=common.encrypt(password)).save()
+    encryptedPassword = common.encrypt(password)
+    newUser = database.User(phone=phone, name=name, password=encryptedPassword).save()
     return newUser.dict()
 
 def modifyUser():
@@ -46,18 +37,13 @@ def modifyUser():
     raise NotImplementedError  # TODO
 
 def deleteUser():
-    """Delete a user.
+    """Delete a user by phone number.
 
     :field phone [int]: user phone number
     :raises RuntimeError: if no user exists with the phone number
     """
     phone = common.parse('phone', int)
-
-    # fetch user
-    user = database.User.query.filter_by(
-        phone=phone).first()
+    user = database.User.query.filter_by(phone=phone).first()
     if not user:
         raise RuntimeError('user {phone} does not exist')
-
-    # delete user
     user.delete()

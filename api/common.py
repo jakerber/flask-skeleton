@@ -49,9 +49,9 @@ def _success(response=None):
     resp = constants.RESPONSE_TEMPLATE.copy()
     if response:
         resp['response'] = response
-    return resp, 200
+    return resp, 200  # 200 OK
 
-def _failure(error, statusCode=500):  # 500 Internal Server Error
+def _failure(error):
     """Failed request response.
 
     https://developer.mozilla.org/docs/Web/HTTP/Status
@@ -63,4 +63,4 @@ def _failure(error, statusCode=500):  # 500 Internal Server Error
     resp = constants.RESPONSE_TEMPLATE.copy()
     resp['success'] = False
     resp['response'] = error
-    return resp, statusCode
+    return resp, 500  # 500 Internal Server Error

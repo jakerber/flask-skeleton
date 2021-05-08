@@ -48,4 +48,4 @@ class Item(BaseModel):
 
     def dict(self):
         """JSON serializable representation of entry."""
-        return {'id': self.id, 'value': self.value, 'owner': self.owner, }
+        return {'id': self.id, 'value': self.value, 'owner': self.owner}

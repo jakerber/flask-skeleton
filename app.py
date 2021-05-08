@@ -1,12 +1,12 @@
 """Backend server."""
 import constants
+import database
 import flask
 import json
 from api import auth
 from api import common
 from api import item
 from api import user
-from db import database
 
 # initialize Flask app
 app = flask.Flask(__name__)
