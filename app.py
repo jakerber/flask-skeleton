@@ -1,7 +1,9 @@
 """Backend server."""
 import constants
 import flask
+import json
 from api import auth
+from api import common
 from api import item
 from api import user
 from db import database
@@ -23,26 +25,29 @@ with app.app_context():
 API router.
 """
 
+# api gateway
+gateway = common.endpoint
+
 # api root
 @app.route(f'{constants.API_ROOT}', methods=['GET'])
 def root():
     return 'Hello, world!', 200
 
 # authentication operations
-app.route(f'{constants.API_ROOT}/auth', methods=['GET'])(auth.signIn)
-app.route(f'{constants.API_ROOT}/auth', methods=['DELETE'])(auth.signOut)
+app.route(f'{constants.API_ROOT}/auth', methods=['GET'], defaults={'func': auth.signIn})(gateway)
+app.route(f'{constants.API_ROOT}/auth', methods=['DELETE'], defaults={'func': auth.signOut})(gateway)
 
 # user operations
-app.route(f'{constants.API_ROOT}/user', methods=['GET'])(user.getUsers)
-app.route(f'{constants.API_ROOT}/user', methods=['PUT'])(user.createUser)
-app.route(f'{constants.API_ROOT}/user', methods=['POST'])(user.modifyUser)
-app.route(f'{constants.API_ROOT}/user', methods=['DELETE'])(user.deleteUser)
+app.route(f'{constants.API_ROOT}/user', methods=['GET'], defaults={'func': user.getUsers})(gateway)
+app.route(f'{constants.API_ROOT}/user', methods=['PUT'], defaults={'func': user.createUser})(gateway)
+app.route(f'{constants.API_ROOT}/user', methods=['POST'], defaults={'func': user.modifyUser})(gateway)
+app.route(f'{constants.API_ROOT}/user', methods=['DELETE'], defaults={'func': user.deleteUser})(gateway)
 
 # item operations
-app.route(f'{constants.API_ROOT}/item', methods=['GET'])(item.getItems)
-app.route(f'{constants.API_ROOT}/item', methods=['PUT'])(item.createItem)
-app.route(f'{constants.API_ROOT}/item', methods=['POST'])(item.modifyItem)
-app.route(f'{constants.API_ROOT}/item', methods=['DELETE'])(item.deleteItem)
+app.route(f'{constants.API_ROOT}/item', methods=['GET'], defaults={'func': item.getItems})(gateway)
+app.route(f'{constants.API_ROOT}/item', methods=['PUT'], defaults={'func': item.createItem})(gateway)
+app.route(f'{constants.API_ROOT}/item', methods=['POST'], defaults={'func': item.modifyItem})(gateway)
+app.route(f'{constants.API_ROOT}/item', methods=['DELETE'], defaults={'func': item.deleteItem})(gateway)
 
 """
 Flask app runner.

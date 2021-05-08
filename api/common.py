@@ -3,13 +3,16 @@ import constants
 import hashlib
 import flask
 
-def encrypt(password):
-    """Encrypt a plain text password.
+def endpoint(func):
+    """Endpoint used for all API routes.
 
-    :param password [str]: plain text password
-    :returns [str]: SHA256-encrypted password
+    :param func [function]: function to route request to
     """
-    return hashlib.sha256(password.encode('utf-8')).hexdigest()
+    try:
+        response = func()
+    except Exception as error:
+        return _failure(repr(error))
+    return _success(response)
 
 def parse(name, type, optional=False):
     """Parse request parameter.
@@ -22,15 +25,20 @@ def parse(name, type, optional=False):
     """
     param = flask.request.form.get(name, None)
     if param:
-        try:
-            return type(param)
-        except ValueError as error:
-            raise ValueError(f"invalid {param} parameter: {repr(error)}")
+        return type(param)
     elif not optional:
-        raise ValueError(f"missing {name} parameter")
+        raise ValueError(f'missing {name} parameter')
     return param
 
-def success(response=None):
+def encrypt(password):
+    """Encrypt a plain text password.
+
+    :param password [str]: plain text password
+    :returns [str]: SHA256-encrypted password
+    """
+    return hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+def _success(response=None):
     """Successful request response.
 
     :param response [str]: request response
@@ -41,7 +49,7 @@ def success(response=None):
         resp['response'] = response
     return resp, 200
 
-def failure(error, statusCode=500):  # 500 Internal Server Error
+def _failure(error, statusCode=500):  # 500 Internal Server Error
     """Failed request response.
 
     https://developer.mozilla.org/docs/Web/HTTP/Status
