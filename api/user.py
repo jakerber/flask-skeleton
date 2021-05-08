@@ -3,7 +3,12 @@ from api import common
 from db import database
 
 def getUsers():
-    """Get users."""
+    """Get users.
+
+    :field phone [int]: user phone number
+    :returns [dict|list]: user or list of users
+    :raises RuntimeError: if no users exists with the phone number
+    """
     phone = common.parse('phone', int, optional=True)
 
     # fetch a single user
@@ -18,7 +23,13 @@ def getUsers():
     return [user.dict() for user in users]
 
 def createUser():
-    """Create a user."""
+    """Create a user.
+
+    :field phone [int]: user phone number
+    :field name [str]: user name
+    :field password [str]: user password (will be encrypted)
+    :returns [dict]: newly created user
+    """
     phone = common.parse('phone', int)
     name = common.parse('name', str)
     password = common.parse('password', str)
@@ -35,7 +46,11 @@ def modifyUser():
     raise NotImplementedError  # TODO
 
 def deleteUser():
-    """Delete a user."""
+    """Delete a user.
+
+    :field phone [int]: user phone number
+    :raises RuntimeError: if no user exists with the phone number
+    """
     phone = common.parse('phone', int)
 
     # fetch user

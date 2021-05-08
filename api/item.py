@@ -3,7 +3,12 @@ from api import common
 from db import database
 
 def getItems():
-    """Get items."""
+    """Get items.
+
+    :field owner [int]: owner identifier (phone number)
+    :returns [list]: items as dicts
+    :raises RuntimeError: if no items exist with the owner
+    """
     owner = common.parse('owner', int, optional=True)
 
     # fetch a single item by owner
@@ -20,7 +25,12 @@ def getItems():
     return [item.dict() for item in items]
 
 def createItem():
-    """Create an item."""
+    """Create an item.
+
+    :field value [str]: item value
+    :field owner [int]: owner phone number (user primary key)
+    :return [dict]: newly created item
+    """
     value = common.parse('value', str)
     owner = common.parse('owner', int)
 
@@ -35,7 +45,11 @@ def modifyItem():
     raise NotImplementedError
 
 def deleteItem():
-    """Delete an item."""
+    """Delete an item.
+
+    :field id [int]: item id
+    :raises RuntimeError: if no item exists with the id
+    """
     id = common.parse('id', int)
 
     # fetch item
