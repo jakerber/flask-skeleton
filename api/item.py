@@ -41,5 +41,5 @@ def deleteItem():
     id = common.parse('id', int)
     item = database.Item.query.get(id)
     if not item:
-        raise RuntimeError(f'item {id} not found')
+        raise RuntimeError(f'item not found')
     item.delete()

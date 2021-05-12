@@ -6,5 +6,5 @@ def signIn():
     raise NotImplementedError  # TODO
 
 def signOut():
-    """Sign up a user."""
+    """Sign out a user."""
     raise NotImplementedError  # TODO

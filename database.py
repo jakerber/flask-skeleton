@@ -5,7 +5,7 @@ import flask_sqlalchemy
 DB = flask_sqlalchemy.SQLAlchemy()
 
 """
-Database models.
+Data models.
 """
 
 class BaseModel(DB.Model):

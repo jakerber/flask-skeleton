@@ -13,7 +13,7 @@ def getUsers():
     if phone:
         user = database.User.query.get(phone)
         if not user:
-            raise RuntimeError(f'user {phone} does not exist')
+            raise RuntimeError(f'user not found')
         return user.dict()
     return [user.dict() for user in database.User.query.all()]
 
@@ -45,5 +45,5 @@ def deleteUser():
     phone = common.parse('phone', int)
     user = database.User.query.filter_by(phone=phone).first()
     if not user:
-        raise RuntimeError('user {phone} does not exist')
+        raise RuntimeError(f'user not found')
     user.delete()
