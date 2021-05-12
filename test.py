@@ -1,4 +1,8 @@
-"""Test runner."""
+"""API test runner.
+
+Runs a real Flask app instance to connect to the database. Execute tests by
+visiting http://127.0.0.1:5000/api/v1/test.
+"""
 import app
 import constants
 import multiprocessing
