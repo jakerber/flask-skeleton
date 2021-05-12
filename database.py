@@ -1,4 +1,5 @@
 """Database operations."""
+import datetime
 import flask_sqlalchemy
 
 # global SQLAlchemy database instance
@@ -12,6 +13,8 @@ class BaseModel(DB.Model):
     """Base model for all database objects."""
 
     __abstract__ = True
+
+    created_on = DB.Column(DB.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
     def save(self):
         """Save to database."""
@@ -30,12 +33,12 @@ class User(BaseModel):
     __tablename__ = 'users'
 
     phone = DB.Column(DB.BigInteger, primary_key=True)
-    name = DB.Column(DB.Text)
-    password = DB.Column(DB.Text)
+    name = DB.Column(DB.Text, nullable=False)
+    password = DB.Column(DB.Text, nullable=False)
 
     def dict(self):
         """JSON serializable representation of entry."""
-        return {'phone': self.phone, 'name': self.name, 'password': self.password}
+        return {'phone': self.phone, 'name': self.name, 'password': self.password, 'created_on': self.created_on}
 
 class Item(BaseModel):
     """Item database object."""
@@ -43,9 +46,9 @@ class Item(BaseModel):
     __tablename__ = 'items'
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
-    value = DB.Column(DB.Text)
+    value = DB.Column(DB.Text, nullable=False)
     owner = DB.Column(DB.BigInteger, DB.ForeignKey(User.phone))
 
     def dict(self):
         """JSON serializable representation of entry."""
-        return {'id': self.id, 'value': self.value, 'owner': self.owner}
+        return {'id': self.id, 'value': self.value, 'owner': self.owner, 'created_on': self.created_on}
