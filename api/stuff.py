@@ -38,7 +38,7 @@ def getAllStuff():
 
     :returns [list]: stuff as dicts
     """
-    return [item.dict() for item in database.Stuff.query.all()]
+    return [entry.dict() for entry in database.Stuff.query.all()]
 
 
 def getStuff():
@@ -48,7 +48,7 @@ def getStuff():
     """
     user = common.authenticate()
     stuff = database.Stuff.query.filter_by(user_id=user.id).all()
-    return [item.dict() for item in stuff]
+    return [entry.dict() for entry in stuff]
 
 
 def updateStuff():
