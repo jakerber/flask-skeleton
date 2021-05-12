@@ -1,4 +1,5 @@
 # Custom ignores
+test.py
 _test.py
 notes.txt
 
