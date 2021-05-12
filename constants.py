@@ -3,6 +3,7 @@ import os
 
 # api constants
 API_ROOT = '/api/v1'
+AUTH_TOKEN_LIFESPAN_SEC = int(os.environ['AUTH_TOKEN_LIFESPAN_SEC'])
 DEBUG = bool(os.environ['DEBUG'])
 RESPONSE_TEMPLATE = {'success': True, 'response': ''}
 SECRET_KEY = os.environ['SECRET_KEY']

@@ -1,7 +1,17 @@
 """Common API module."""
 import constants
+import datetime
 import hashlib
 import flask
+import jwt
+
+def encrypt(password):
+    """Encrypt a plain text password.
+
+    :param password [str]: plain text password
+    :returns [str]: SHA256-encrypted password
+    """
+    return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 def endpoint(func):
     """Endpoint used for all API routes.
@@ -15,6 +25,17 @@ def endpoint(func):
         return _success(func())
     except Exception as error:
         return _failure(error)
+
+def decode(token):
+    """Decode authentication token.
+
+    https://realpython.com/token-based-authentication-with-flask/
+
+    :param token [str]: auth token
+    :returns [str]: decoded user identifier (phone number)
+    """
+    payload = jwt.decode(token, constants.SECRET_KEY)
+    return payload['sub']
 
 def parse(name, type, optional=False):
     """Parse request parameter.
@@ -32,13 +53,21 @@ def parse(name, type, optional=False):
         raise ValueError(f'missing {name} parameter')
     return param
 
-def encrypt(password):
-    """Encrypt a plain text password.
-
-    :param password [str]: plain text password
-    :returns [str]: SHA256-encrypted password
+def tokenize(user):
     """
-    return hashlib.sha256(password.encode('utf-8')).hexdigest()
+    Generate an authentication token.
+
+    https://realpython.com/token-based-authentication-with-flask/
+
+    :param user [User]: user database model to authenticate
+    :returns [str]: auth token
+    """
+    payload = {
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=constants.AUTH_TOKEN_LIFESPAN_SEC),  # expiration date
+        'iat': datetime.datetime.utcnow(),  # time created
+        'sub': user.phone  # subject
+    }
+    return jwt.encode(payload, constants.SECRET_KEY, algorithm='HS256')
 
 def _success(response=None):
     """Successful request response.
