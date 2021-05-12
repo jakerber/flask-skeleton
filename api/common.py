@@ -1,4 +1,4 @@
-"""Common API module."""
+"""Common API library."""
 import constants
 import database
 import datetime
@@ -112,7 +112,7 @@ def tokenize(user):
 
 
 def _call(func):
-    """Call API function.
+    """Call API wrapper.
 
     Gracefully responds to requests that raise exceptions.
 

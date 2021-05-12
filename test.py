@@ -3,23 +3,17 @@ import app
 import constants
 import multiprocessing
 import unittest
-from tests import auth
-from tests import stuff
-from tests import user
-
-# name -> module
-TEST_MODULES = {
-    'auth': auth,
-    'stuff': stuff,
-    'user': user
-}
+from tests import auth_test
+from tests import stuff_test
+from tests import user_test
 
 
 def load_tests(loader, tests, pattern):
     """Load tests from test modules."""
     suite = unittest.TestSuite()
-    for module in TEST_MODULES:
-        suite.addTests(loader.loadTestsFromModule(TEST_MODULES.get(module)))
+    suite.addTests(loader.loadTestsFromModule(auth_test))
+    suite.addTests(loader.loadTestsFromModule(stuff_test))
+    suite.addTests(loader.loadTestsFromModule(user_test))
     return suite
 
 
