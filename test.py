@@ -1,7 +1,6 @@
 """API test runner.
 
-Runs a real Flask app instance to connect to the database. Execute tests by
-visiting http://127.0.0.1:5000/api/v1/test.
+Runs a real Flask app instance to connect to the database.
 """
 import app
 import constants
@@ -21,12 +20,6 @@ def load_tests(loader, tests, pattern):
     return suite
 
 
-@app.app.route(f'{constants.API_ROOT}/test')
-def runTests():
-    """Execute all tests in a seperate process."""
-    multiprocessing.Process(target=unittest.main).start()
-    return 'Check the console for test results.', 200
-
-
 if __name__ == '__main__':
-    app.app.run()
+    with app.app.app_context():
+        unittest.main()

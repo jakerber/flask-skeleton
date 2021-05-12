@@ -32,16 +32,25 @@ class APITestBase(unittest.TestCase):
         ]
     }
 
+    @classmethod
+    def tearDownClass(cls):
+        """Clear database after tests are executed."""
+        cls.clearDatabase()
+
+    @classmethod
+    def clearDatabase(cls):
+        """Remove all data from the database."""
+        for model in DATABASE_MODELS:
+            for entry in model.query.all():
+                entry.delete()
+
     def setUp(self):
         """Get database in ready state.
 
         Removes all data from database and insert objects outlined in
         self._DATABASE_READY_STATE.
         """
-        # Remove all data from database
-        for model in DATABASE_MODELS:
-            for entry in model.query.all():
-                entry.delete()
+        self.clearDatabase()
 
         # Insert objects outlined in self._DATABASE_READY_STATE
         for model in self._DATABASE_READY_STATE:
