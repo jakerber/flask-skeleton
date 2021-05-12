@@ -1,6 +1,16 @@
 """Authentication API endpoints."""
 import database
+import flask
 from api import common
+
+def getBlacklistedTokens():
+    """Get all blacklisted auth tokens.
+
+    Does not authenticate - not exposed in production.
+
+    :returns [list]: blacklisted tokens
+    """
+    return [token.dict().get('token') for token in database.AuthTokenBlacklist.query.all()]
 
 def signIn():
     """Sign in a user.
@@ -20,8 +30,13 @@ def signIn():
     return common.tokenize(user)
 
 def signOut():
-    """Sign out a user."""
-    raise NotImplementedError  # TODO
+    """Sign out a user.
+
+    Blacklist's user's current auth token.
+    """
+    common.authenticate()
+    token = flask.request.headers.get('auth_token')
+    database.AuthTokenBlacklist(token=token).save()
 
 def signUp():
     """Sign up a new user.

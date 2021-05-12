@@ -19,14 +19,15 @@ class AuthenticationError(Exception):
 def authenticate():
     """Validate authentication token.
 
+    :header auth_token [str]: authentication token
     :returns user [User]: authenticated user's database object
     :raises AuthenticationError: if authentication fails
     """
     token = flask.request.headers.get('auth_token')
     if not token:
-        raise AuthenticationError('missing auth_token')
+        raise AuthenticationError('missing auth token')
 
-    # decode and validate token
+    # decode and verify token
     try:
         payload = jwt.decode(token, constants.SECRET_KEY, algorithms='HS256')
     except jwt.ExpiredSignatureError:
@@ -35,6 +36,10 @@ def authenticate():
         raise AuthenticationError('invalid token format')
     if payload.get('ipa') != flask.request.remote_addr:
         raise AuthenticationError('mismatched ip address')
+
+    # ensure user is not signed out
+    if database.AuthTokenBlacklist.query.get(token):
+        raise AuthenticationError('token signed out')
 
     # fetch user from token subject
     userId = payload.get('sub')

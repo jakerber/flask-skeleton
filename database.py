@@ -27,6 +27,18 @@ class BaseModel(DB.Model):
         DB.session.delete(self)
         DB.session.commit()
 
+class AuthTokenBlacklist(BaseModel):
+    """Auth token blacklist database object."""
+
+    __tablename__ = 'auth_token_blacklist'
+
+    token = DB.Column(DB.Text, primary_key=True)
+
+    def dict(self):
+        """JSON serializable representation of entry."""
+        return {'token': self.token,
+                'created_on': self.created_on}
+
 class User(BaseModel):
     """User database object."""
 
