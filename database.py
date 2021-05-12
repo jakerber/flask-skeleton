@@ -9,12 +9,14 @@ DB = flask_sqlalchemy.SQLAlchemy()
 Data models.
 """
 
+
 class BaseModel(DB.Model):
     """Base model for all database objects."""
 
     __abstract__ = True
 
-    created_on = DB.Column(DB.DateTime, nullable=False, default=datetime.datetime.utcnow())
+    created_on = DB.Column(DB.DateTime, nullable=False,
+                           default=datetime.datetime.utcnow())
 
     def save(self):
         """Save to database."""
@@ -27,6 +29,7 @@ class BaseModel(DB.Model):
         DB.session.delete(self)
         DB.session.commit()
 
+
 class AuthTokenBlacklist(BaseModel):
     """Auth token blacklist database object."""
 
@@ -38,6 +41,7 @@ class AuthTokenBlacklist(BaseModel):
         """JSON serializable representation of entry."""
         return {'token': self.token,
                 'created_on': self.created_on}
+
 
 class User(BaseModel):
     """User database object."""
@@ -56,6 +60,7 @@ class User(BaseModel):
                 'name': self.name,
                 'password': self.password,
                 'created_on': self.created_on}
+
 
 class Stuff(BaseModel):
     """Stuff database object."""

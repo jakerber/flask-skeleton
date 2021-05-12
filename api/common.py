@@ -13,8 +13,10 @@ _EXCEPTION_TO_HTTP_STATUS_CODE = {
     'AuthenticationError': 401  # Unauthorized
 }
 
+
 class AuthenticationError(Exception):
     """Custom exception for authentication errors."""
+
 
 def authenticate():
     """Validate authentication token.
@@ -48,6 +50,7 @@ def authenticate():
         raise AuthenticationError('user does not exist')
     return user
 
+
 def encrypt(password):
     """Encrypt a plain text password.
 
@@ -55,6 +58,7 @@ def encrypt(password):
     :returns [str]: SHA256-encrypted password
     """
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
+
 
 def parse(name, type, optional=False):
     """Parse request parameter.
@@ -72,6 +76,7 @@ def parse(name, type, optional=False):
         raise ValueError(f'missing {name} parameter')
     return param
 
+
 def route(app, url, method, func):
     """Create API route.
 
@@ -86,6 +91,7 @@ def route(app, url, method, func):
               methods=[method],
               defaults={'func': func})(_call)
 
+
 def tokenize(user):
     """
     Generate an authentication token.
@@ -96,12 +102,14 @@ def tokenize(user):
     :returns [str]: auth token
     """
     payload = {
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=constants.AUTH_TOKEN_LIFESPAN_SEC),  # expiration date
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(
+            seconds=constants.AUTH_TOKEN_LIFESPAN_SEC),  # expiration date
         'iat': datetime.datetime.utcnow(),  # time created
         'sub': user.id,  # subject
         'ipa': flask.request.remote_addr  # ip address
     }
     return jwt.encode(payload, constants.SECRET_KEY, algorithm='HS256')
+
 
 def _call(func):
     """Call API function.
@@ -116,6 +124,7 @@ def _call(func):
     except Exception as error:
         return _failure(error)
 
+
 def _failure(error):
     """Failed request response.
 
@@ -129,7 +138,7 @@ def _failure(error):
     }
 
     :param error [str]: description of error
-    :returns [tuple[dict, int]]: JSON response in format (response, status code)
+    :returns [tuple[dict, int]]: JSON response as (response, status code)
     """
     resp = constants.RESPONSE_TEMPLATE.copy()
     resp['success'] = False
@@ -137,7 +146,10 @@ def _failure(error):
     errorType = type(error).__name__
     resp['response']['error'] = errorType
     resp['response']['message'] = str(error)
-    return resp, _EXCEPTION_TO_HTTP_STATUS_CODE.get(errorType, 500)  # 500 Internal Server Error
+
+    # default status 500 Internal Server Error
+    return resp, _EXCEPTION_TO_HTTP_STATUS_CODE.get(errorType, 500)
+
 
 def _success(response=None):
     """Successful request response.
@@ -149,9 +161,11 @@ def _success(response=None):
     }
 
     :param response [str]: request response
-    :returns [tuple[dict, int]]: JSON response in format (response, status code)
+    :returns [tuple[dict, int]]: JSON response as (response, status code)
     """
     resp = constants.RESPONSE_TEMPLATE.copy()
     if response is not None:
         resp['response'] = response
-    return resp, 200  # 200 OK
+
+    # status 200 OK
+    return resp, 200

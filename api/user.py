@@ -2,6 +2,7 @@
 import database
 from api import common
 
+
 def deleteUser():
     """Delete a user.
 
@@ -16,6 +17,7 @@ def deleteUser():
         stuff.delete()  # delete all stuff owned by user
     user.delete()
 
+
 def getAllUsers():
     """Get all existing users.
 
@@ -25,6 +27,7 @@ def getAllUsers():
     """
     return [user.dict() for user in database.User.query.all()]
 
+
 def getUser():
     """Get user.
 
@@ -32,6 +35,7 @@ def getUser():
     """
     user = common.authenticate()
     return user.dict()
+
 
 def updateUser():
     """Update a user's information.

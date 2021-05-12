@@ -16,8 +16,11 @@ app = flask.Flask(__name__)
 
 # initialize SQLAlchemy database
 SQLALCHEMY_TRACK_MODIFICATIONS = constants.SQLALCHEMY_TRACK_MODIFICATIONS
+SQLALCHEMY_DATABASE_URI = = constants.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
-app.config['SQLALCHEMY_DATABASE_URI'] = constants.SQLALCHEMY_DATABASE_URI.replace('postgres://', 'postgresql://')  # Heroku bug https://stackoverflow.com/q/62688256
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI.replace(
+    'postgres://',  # Heroku bug https://stackoverflow.com/q/62688256
+    'postgresql://')
 database.DB.init_app(app)
 
 # create tables if necessary
@@ -28,10 +31,12 @@ with app.app_context():
 API router.
 """
 
+
 # api root
 @app.route(f'{constants.API_ROOT}', methods=['GET'])
 def root():
     return 'Hello, world!', 200
+
 
 # authentication operations
 common.route(app, url='auth', method='GET',    func=auth.signIn)
@@ -51,9 +56,9 @@ common.route(app, url='stuff', method='DELETE', func=stuff.deleteStuff)
 
 # test endpoints
 if constants.FLASK_ENV == 'development':
-    common.route(app, url='users', method='GET', func=user.getAllUsers)
+    common.route(app, url='users', method='GET',  func=user.getAllUsers)
     common.route(app, url='stuffs', method='GET', func=stuff.getAllStuff)
-    common.route(app, url='tokens', method='GET', func=auth.getBlacklistedTokens)
+    common.route(app, url='tokens', method='GET', func=auth.getBlacklistTokens)
 
 """
 Flask app runner.

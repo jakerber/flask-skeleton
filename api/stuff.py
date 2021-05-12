@@ -2,6 +2,7 @@
 import database
 from api import common
 
+
 def createStuff():
     """Create stuff.
 
@@ -12,6 +13,7 @@ def createStuff():
     description = common.parse('description', str)
     newStuff = database.Stuff(description=description, user_id=user.id).save()
     return newStuff.dict()
+
 
 def deleteStuff():
     """Delete stuff by id.
@@ -28,6 +30,7 @@ def deleteStuff():
         raise ValueError('incorrect owner')
     stuff.delete()
 
+
 def getAllStuff():
     """Get all existing stuff.
 
@@ -37,6 +40,7 @@ def getAllStuff():
     """
     return [item.dict() for item in database.Stuff.query.all()]
 
+
 def getStuff():
     """Get stuff by owner.
 
@@ -45,6 +49,7 @@ def getStuff():
     user = common.authenticate()
     stuff = database.Stuff.query.filter_by(user_id=user.id).all()
     return [item.dict() for item in stuff]
+
 
 def updateStuff():
     """Update stuff.
