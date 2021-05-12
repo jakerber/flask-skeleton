@@ -1,7 +1,10 @@
 # Flask starter
 Simple Python Flask backend server starter project.
 
-###### _Note: Instructions are MacOS-specific_
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Version](https://badge.fury.io/gh/tterb%2FHyde.svg)](https://badge.fury.io/gh/tterb%2FHyde)
+
+###### _Note: Instructions below are MacOS-specific_
 
 ## Setup
 
@@ -75,13 +78,13 @@ Deploy the project on [Heroku](https://heroku.com) for free.
 
         * `Settings` -> `Config Vars`
 
-2. Connect the Heroku app to a [GitHub](https://github.com/) repo containing this codebase.
+2. Connect the Heroku app to a [GitHub](https://github.com/) repo containing this codebase
 
     ![alt text](docs/heroku-deploy-github.png)
 
-    * Enable `Automatic Deployment` from branch `main`
+    * Enable `Automatic Deploys` from branch `main`
 
-3. Add the [Heroku Postgres](https://elements.heroku.com/addons/heroku-postgresql) add-on.
+3. Add the [Heroku Postgres](https://elements.heroku.com/addons/heroku-postgresql) add-on
 
     ![alt text](docs/heroku-postgres-addon.png)
 
