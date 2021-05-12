@@ -2,23 +2,6 @@
 import database
 from api import common
 
-def createUser():
-    """Create a user.
-
-    :field phone [int]: user phone number
-    :field name [str]: user name
-    :field password [str]: user password (will be encrypted)
-    :returns [dict]: newly created user's info with auth token
-    """
-    phone = common.parse('phone', int)
-    name = common.parse('name', str)
-    password = common.parse('password', str)
-    encryptedPassword = common.encrypt(password)
-    newUser = database.User(phone=phone, name=name, password=encryptedPassword).save()
-    newUserInfo = newUser.dict()
-    newUserInfo['auth_token'] = common.tokenize(newUser)  # attach auth token to response
-    return newUserInfo
-
 def deleteUser():
     """Delete a user.
 

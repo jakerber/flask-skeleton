@@ -36,10 +36,10 @@ def root():
 # authentication operations
 common.route(app, url='auth', method='GET',    func=auth.signIn)
 common.route(app, url='auth', method='DELETE', func=auth.signOut)
+common.route(app, url='auth', method='PUT',    func=auth.signUp)
 
 # user operations
 common.route(app, url='user', method='GET',    func=user.getUser)
-common.route(app, url='user', method='PUT',    func=user.createUser)
 common.route(app, url='user', method='POST',   func=user.updateUser)
 common.route(app, url='user', method='DELETE', func=user.deleteUser)
 

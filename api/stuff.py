@@ -13,7 +13,7 @@ def createStuff():
     newStuff = database.Stuff(description=description, user_id=user.id).save()
     return newStuff.dict()
 
-def deleteStuff(auth):
+def deleteStuff():
     """Delete stuff by id.
 
     :field id [int]: stuff id
@@ -22,6 +22,8 @@ def deleteStuff(auth):
     user = common.authenticate()
     id = common.parse('id', int)
     stuff = database.Stuff.query.get(id)
+    if not stuff:
+        raise ValueError('stuff does not exist')
     if stuff.user_id != user.id:
         raise ValueError('incorrect owner')
     stuff.delete()
@@ -56,6 +58,8 @@ def updateStuff():
     id = common.parse('id', int)
     newDescription = common.parse('description', str)
     stuff = database.Stuff.query.get(id)
+    if not stuff:
+        raise ValueError('stuff does not exist')
     if stuff.user_id != user.id:
         raise ValueError('incorrect owner')
     stuff.description = newDescription

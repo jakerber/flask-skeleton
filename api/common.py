@@ -40,7 +40,7 @@ def authenticate():
     userId = payload.get('sub')
     user = database.User.query.get(userId)
     if not user:
-        raise AuthenticationError('invalid user')
+        raise AuthenticationError('user does not exist')
     return user
 
 def encrypt(password):
