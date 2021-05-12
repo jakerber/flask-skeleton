@@ -1,8 +1,6 @@
 # Flask starter
 Simple Python Flask backend server starter project.
 
-___
-
 ###### _Note: Instructions are MacOS-specific_
 
 ## Setup
