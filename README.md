@@ -4,7 +4,7 @@ Simple Python Flask backend server starter project.
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Version](https://badge.fury.io/gh/tterb%2FHyde.svg)](https://badge.fury.io/gh/tterb%2FHyde)
 
-###### _Note: Instructions below are MacOS-specific_
+###### _Note: Instructions below are MacOS-specific._
 
 ## Setup
 
