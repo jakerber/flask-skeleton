@@ -73,7 +73,7 @@ Deploy the project on [Heroku](https://heroku.com) for free.
 
 1. [Create](https://dashboard.heroku.com/new-app) a new Heroku app
 
-    * Add all other constants from `.env` to your app, except `DATABASE_URL`
+    * Add all constants from `.env` to your app, except `DATABASE_URL`
 
         * `Settings` -> `Config Vars`
 
@@ -86,3 +86,5 @@ Deploy the project on [Heroku](https://heroku.com) for free.
 3. Add the [Heroku Postgres](https://elements.heroku.com/addons/heroku-postgresql) add-on.
 
     ![alt text](docs/heroku-postgres-addon.png)
+
+    * This will add the DATABASE_URL` to your Heroku app
