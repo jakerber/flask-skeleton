@@ -88,3 +88,11 @@ Deploy the project on [Heroku](https://heroku.com) for free.
     ![alt text](docs/heroku-postgres-addon.png)
 
     * This will add the `DATABASE_URL` constant to your Heroku app
+
+4. Verify your app is running by visiting the API root
+
+    ```
+    open https://<heroku_project_name>.herokuapp.com/api/v1
+    ```
+
+    * You can execute commands in Postman by changing the URL of requests from `127.0.0.1:5000` to `<heroku_project_name>.herokuapp.com`.
