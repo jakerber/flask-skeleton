@@ -1,4 +1,4 @@
-"""Common API test library."""
+"""Common API testing library."""
 import unittest
 import database
 
