@@ -357,7 +357,7 @@
 							"formdata": [
 								{
 									"key": "description",
-									"value": "item-joey-owns-2",
+									"value": "more-stuff-joey-owns",
 									"type": "text"
 								}
 							]
@@ -397,7 +397,7 @@
 							"formdata": [
 								{
 									"key": "description",
-									"value": "item-joey-owns-updated",
+									"value": "stuff-joey-owns-updated",
 									"type": "text"
 								},
 								{

@@ -1,7 +1,7 @@
 """Test runner."""
-import argparse
+import app
 import constants
-import sys
+import multiprocessing
 import unittest
 from tests import auth
 from tests import stuff
@@ -10,31 +10,25 @@ from tests import user
 # name -> module
 TEST_MODULES = {
     'auth': auth,
-    'item': stuff,
+    'stuff': stuff,
     'user': user
 }
-
-parser = argparse.ArgumentParser(description='API test runner.')
-parser.add_argument('--name', type=str, default=None, action='store',
-                    help='Name of test module to run')
-args = parser.parse_args()
 
 
 def load_tests(loader, tests, pattern):
     """Load tests from test modules."""
     suite = unittest.TestSuite()
-    if args.name:
-        testModule = TEST_MODULES.get(args.name)
-        if not testModule:
-            raise ValueError(f'test module {args.name} not found')
-        suite.addTests(loader.loadTestsFromModule(TEST_MODULES.get(testModule)))
-    else:
-        for module in TEST_MODULES:
-            suite.addTests(loader.loadTestsFromModule(TEST_MODULES.get(module)))
+    for module in TEST_MODULES:
+        suite.addTests(loader.loadTestsFromModule(TEST_MODULES.get(module)))
     return suite
 
 
+@app.app.route(f'{constants.API_ROOT}/test')
+def runTests():
+    """Execute all tests in a seperate process."""
+    multiprocessing.Process(target=unittest.main).start()
+    return 'Check the console for test results.', 200
+
+
 if __name__ == '__main__':
-    input('Warning: this will delete all data in test database '
-          f'{constants.SQLALCHEMY_DATABASE_URI}. Press enter to continue.')
-    unittest.main(argv=sys.argv[:1])
+    app.app.run()
