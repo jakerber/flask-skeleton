@@ -50,7 +50,7 @@ common.route(app, url='stuff', method='POST',   func=stuff.updateStuff)
 common.route(app, url='stuff', method='DELETE', func=stuff.deleteStuff)
 
 # test endpoints
-if constants.DEV_ENV:
+if constants.FLASK_ENV == 'development':
     common.route(app, url='users', method='GET', func=user.getAllUsers)
     common.route(app, url='stuffs', method='GET', func=stuff.getAllStuff)
     common.route(app, url='tokens', method='GET', func=auth.getBlacklistedTokens)
@@ -60,4 +60,4 @@ Flask app runner.
 """
 
 if __name__ == '__main__':
-    app.run(debug=constants.DEV_ENV)
+    app.run()
