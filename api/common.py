@@ -13,19 +13,6 @@ def encrypt(password):
     """
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-def endpoint(func):
-    """Endpoint used for all API routes.
-
-    Gracefully responds to requests that raise exceptions.
-
-    :param func [function]: function to route request to
-    :returns [tuple[dict, int]]: JSON response in format (response, status code)
-    """
-    try:
-        return _success(func())
-    except Exception as error:
-        return _failure(error)
-
 def decode(token):
     """Decode authentication token.
 
@@ -53,6 +40,21 @@ def parse(name, type, optional=False):
         raise ValueError(f'missing {name} parameter')
     return param
 
+def route(app, url, method, func, auth=True):
+    """Create API route.
+
+    Generates routes that direct requests to functions within the application.
+
+    :param app [Flask]: Flask application object
+    :param url [str]: url to route request from
+    :param method [str]: http method type (GET, POST, etc.)
+    :param func [function]: function to route request to
+    :param auth [bool]: if True, require authentication token
+    """
+    app.route(f'{constants.API_ROOT}/{url}',
+              methods=[method],
+              defaults={'func': func, 'auth': auth})(_call)
+
 def tokenize(user):
     """
     Generate an authentication token.
@@ -69,22 +71,19 @@ def tokenize(user):
     }
     return jwt.encode(payload, constants.SECRET_KEY, algorithm='HS256')
 
-def _success(response=None):
-    """Successful request response.
+def _call(func, auth=True):
+    """Call API function.
 
-    Format:
-    {
-        "response": <response>,
-        "success": true
-    }
+    Gracefully responds to requests that raise exceptions.
 
-    :param response [str]: request response
-    :returns [tuple[dict, int]]: JSON response in format (response, status code)
+    :param func [function]: function to call
+    :param auth [bool]: if True, require authentication token
+    :returns [tuple[dict, int]]: JSON response via helper functions
     """
-    resp = constants.RESPONSE_TEMPLATE.copy()
-    if response is not None:
-        resp['response'] = response
-    return resp, 200  # 200 OK
+    try:
+        return _success(func())
+    except Exception as error:
+        return _failure(error)
 
 def _failure(error):
     """Failed request response.
@@ -110,3 +109,20 @@ def _failure(error):
     resp['response']['error'] = type(error).__name__
     resp['response']['message'] = str(error)
     return resp, 500  # 500 Internal Server Error
+
+def _success(response=None):
+    """Successful request response.
+
+    Format:
+    {
+        "response": <response>,
+        "success": true
+    }
+
+    :param response [str]: request response
+    :returns [tuple[dict, int]]: JSON response in format (response, status code)
+    """
+    resp = constants.RESPONSE_TEMPLATE.copy()
+    if response is not None:
+        resp['response'] = response
+    return resp, 200  # 200 OK

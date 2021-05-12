@@ -14,8 +14,6 @@ from api import user
 # initialize Flask app
 app = flask.Flask(__name__)
 
-
-
 # initialize SQLAlchemy database
 SQLALCHEMY_TRACK_MODIFICATIONS = constants.SQLALCHEMY_TRACK_MODIFICATIONS
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
@@ -30,33 +28,33 @@ with app.app_context():
 API router.
 """
 
-# api gateway
-gateway = common.endpoint
-
 # api root
 @app.route(f'{constants.API_ROOT}', methods=['GET'])
 def root():
     return 'Hello, world!', 200
 
 # authentication operations
-app.route(f'{constants.API_ROOT}/auth', methods=['GET'], defaults={'func': auth.signIn})(gateway)
-app.route(f'{constants.API_ROOT}/auth', methods=['DELETE'], defaults={'func': auth.signOut})(gateway)
+common.route(app, url='auth', method='GET',    func=auth.signIn, auth=False)
+common.route(app, url='auth', method='DELETE', func=auth.signOut)
 
 # user operations
-app.route(f'{constants.API_ROOT}/user', methods=['GET'], defaults={'func': user.getUsers})(gateway)
-app.route(f'{constants.API_ROOT}/user', methods=['PUT'], defaults={'func': user.createUser})(gateway)
-app.route(f'{constants.API_ROOT}/user', methods=['POST'], defaults={'func': user.modifyUserName})(gateway)
-app.route(f'{constants.API_ROOT}/user', methods=['DELETE'], defaults={'func': user.deleteUser})(gateway)
+common.route(app, url='user', method='PUT',    func=user.createUser, auth=False)
+common.route(app, url='user', method='POST',   func=user.modifyUserName)
+common.route(app, url='user', method='DELETE', func=user.deleteUser)
 
 # item operations
-app.route(f'{constants.API_ROOT}/item', methods=['GET'], defaults={'func': item.getItems})(gateway)
-app.route(f'{constants.API_ROOT}/item', methods=['PUT'], defaults={'func': item.createItem})(gateway)
-app.route(f'{constants.API_ROOT}/item', methods=['POST'], defaults={'func': item.modifyItemValue})(gateway)
-app.route(f'{constants.API_ROOT}/item', methods=['DELETE'], defaults={'func': item.deleteItem})(gateway)
+common.route(app, url='item', method='PUT',    func=item.createItem)
+common.route(app, url='item', method='POST',   func=item.modifyItemValue)
+common.route(app, url='item', method='DELETE', func=item.deleteItem)
+
+# test endpoints
+if constants.DEV_ENV:
+    common.route(app, url='user', method='GET', func=user.getUsers, auth=False)
+    common.route(app, url='item', method='GET', func=item.getItems, auth=False)
 
 """
 Flask app runner.
 """
 
 if __name__ == '__main__':
-    app.run(debug=constants.DEBUG)
+    app.run(debug=constants.DEV_ENV)
