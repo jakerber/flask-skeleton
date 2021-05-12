@@ -31,12 +31,8 @@ with app.app_context():
 API router.
 """
 
-
 # api root
-@app.route(f'{constants.API_ROOT}', methods=['GET'])
-def root():
-    return 'Hello, world!', 200
-
+common.route(app, url='', method='GET', func=lambda: 'Hello, world!')
 
 # authentication operations
 common.route(app, url='auth', method='GET',    func=auth.signIn)
