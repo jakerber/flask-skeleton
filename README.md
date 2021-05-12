@@ -73,7 +73,11 @@ Deploy the project on [Heroku](https://heroku.com) for free.
 
 1. [Create](https://dashboard.heroku.com/new-app) a new Heroku app
 
-2. Connect the Heroku app to a [GitHub](https://github.com/) repo containing the codebase, e.g. [this](https://github.com/jakerber/flask-starter) one.
+    * Add all other constants from `.env` to your app, except `DATABASE_URL`
+
+        * `Settings` -> `Config Vars`
+
+2. Connect the Heroku app to a [GitHub](https://github.com/) repo containing this codebase.
 
     ![alt text](docs/heroku-connect-github.png)
 
@@ -82,9 +86,3 @@ Deploy the project on [Heroku](https://heroku.com) for free.
 3. Add the [Heroku Postgres](https://elements.heroku.com/addons/heroku-postgresql) add-on.
 
     ![alt text](docs/heroku-postgres-addon.png)
-
-    * This will add the `DATABASE_URL` constant to your Heroku app
-
-    * Add all other constants from `.env` to your app
-
-        * `Settings` -> `Config Vars`
