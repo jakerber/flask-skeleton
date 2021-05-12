@@ -77,6 +77,8 @@ Deploy the project on [Heroku](https://heroku.com) for free.
 
     ![alt text](docs/heroku-connect-github.png)
 
+    * Enable `Automatic Deployment` from branch `main`
+
 3. Add the [Heroku Postgres](https://elements.heroku.com/addons/heroku-postgresql) add-on.
 
     ![alt text](docs/heroku-postgres-addon.png)

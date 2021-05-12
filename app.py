@@ -17,7 +17,7 @@ app = flask.Flask(__name__)
 # initialize SQLAlchemy database
 SQLALCHEMY_TRACK_MODIFICATIONS = constants.SQLALCHEMY_TRACK_MODIFICATIONS
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
-app.config['SQLALCHEMY_DATABASE_URI'] = constants.SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_DATABASE_URI'] = constants.SQLALCHEMY_DATABASE_URI.replace('postgres://', 'postgresql://')  # Heroku bug https://stackoverflow.com/q/62688256
 database.DB.init_app(app)
 
 # create tables if necessary
