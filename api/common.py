@@ -5,6 +5,12 @@ import hashlib
 import flask
 import jwt
 
+# Exception type -> HTTP status code to respond with
+# https://developer.mozilla.org/docs/Web/HTTP/Status
+_EXCEPTION_TO_HTTP_STATUS_CODE = {
+    'ValueError': 400,  # Bad Request
+}
+
 def encrypt(password):
     """Encrypt a plain text password.
 
@@ -97,18 +103,18 @@ def _failure(error):
         "success": false
     }
 
-    https://developer.mozilla.org/docs/Web/HTTP/Status
-
     :param error [str]: description of error
-    :param statusCode [int]: HTTP failure status code
     :returns [tuple[dict, int]]: JSON response in format (response, status code)
     """
     resp = constants.RESPONSE_TEMPLATE.copy()
     resp['success'] = False
     resp['response'] = {}
-    resp['response']['error'] = type(error).__name__
+    errorType = type(error).__name__
+    resp['response']['error'] = errorType
     resp['response']['message'] = str(error)
-    return resp, 500  # 500 Internal Server Error
+
+    # default status 500 Internal Server Error
+    return resp, _EXCEPTION_TO_HTTP_STATUS_CODE.get(errorType, 500)
 
 def _success(response=None):
     """Successful request response.

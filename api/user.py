@@ -23,14 +23,16 @@ def createUser():
     :field phone [int]: user phone number
     :field name [str]: user name
     :field password [str]: user password (will be encrypted)
-    :returns [dict]: newly created user
+    :returns [dict]: newly created user with auth token
     """
     phone = common.parse('phone', int)
     name = common.parse('name', str)
     password = common.parse('password', str)
     encryptedPassword = common.encrypt(password)
     newUser = database.User(phone=phone, name=name, password=encryptedPassword).save()
-    return newUser.dict()
+    newUserInfo = newUser.dict()
+    newUserInfo['token'] = common.tokenize(newUser)
+    return newUserInfo
 
 def modifyUserName():
     """Modify a user's name.
@@ -63,4 +65,7 @@ def deleteUser():
         raise RuntimeError(f'user not found')
     if user.password != common.encrypt(password):
         raise RuntimeError(f'incorrect password')
+
+    # TODO: delete user's items
+
     user.delete()
