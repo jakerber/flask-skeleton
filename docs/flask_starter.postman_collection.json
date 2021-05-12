@@ -21,12 +21,12 @@
 							"formdata": [
 								{
 									"key": "phone",
-									"value": "9784605212",
+									"value": "1111111111",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "joey-password",
+									"value": "josh-password",
 									"type": "text"
 								}
 							]
@@ -90,7 +90,7 @@
 							"formdata": [
 								{
 									"key": "phone",
-									"value": "9784605401",
+									"value": "1111111111",
 									"type": "text"
 								},
 								{
@@ -206,7 +206,7 @@
 							"formdata": [
 								{
 									"key": "phone",
-									"value": "9784605240",
+									"value": "1111111111",
 									"type": "text"
 								},
 								{
@@ -314,20 +314,13 @@
 						"header": [
 							{
 								"key": "auth_token",
-								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3OTkyNTAsImlhdCI6MTYyMDc5OTA3MCwic3ViIjozLCJpcGEiOiIxMjcuMC4wLjEifQ.x7e5smbgr1rQunOER-3oRNrOnhySsbIAXg_UNrOTVMU",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3OTk0NDAsImlhdCI6MTYyMDc5OTI2MCwic3ViIjoyLCJpcGEiOiIxMjcuMC4wLjEifQ.iGXbR6z59jcZkXskATpxaPKPd8AIYFC_6awhuM_tvKo",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "owner",
-									"value": "2073328173",
-									"type": "text",
-									"disabled": true
-								}
-							]
+							"formdata": []
 						},
 						"url": {
 							"raw": "http://127.0.0.1:5000/api/v1/stuff",
@@ -409,7 +402,7 @@
 								},
 								{
 									"key": "id",
-									"value": "4",
+									"value": "1",
 									"type": "text"
 								}
 							]
@@ -449,7 +442,7 @@
 							"formdata": [
 								{
 									"key": "id",
-									"value": "4",
+									"value": "1",
 									"type": "text"
 								}
 							]
