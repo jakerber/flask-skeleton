@@ -1,2 +1,2 @@
-# Flask skeleton
-Simple Python Flask backend server skeleton project.
+# Flask starter
+Simple Python Flask backend server starter project.
