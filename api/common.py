@@ -53,7 +53,7 @@ def _success(response=None):
     :returns [tuple[dict, int]]: JSON response in format (response, status code)
     """
     resp = constants.RESPONSE_TEMPLATE.copy()
-    if response:
+    if response is not None:
         resp['response'] = response
     return resp, 200  # 200 OK
 
