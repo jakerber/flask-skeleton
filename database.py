@@ -32,23 +32,31 @@ class User(BaseModel):
 
     __tablename__ = 'users'
 
-    phone = DB.Column(DB.BigInteger, primary_key=True)
+    id = DB.Column(DB.BigInteger, primary_key=True, autoincrement=True)
+    phone = DB.Column(DB.BigInteger, unique=True, nullable=False)
     name = DB.Column(DB.Text, nullable=False)
     password = DB.Column(DB.Text, nullable=False)
 
     def dict(self):
         """JSON serializable representation of entry."""
-        return {'phone': self.phone, 'name': self.name, 'password': self.password, 'created_on': self.created_on}
+        return {'id': self.id,
+                'phone': self.phone,
+                'name': self.name,
+                'password': self.password,
+                'created_on': self.created_on}
 
-class Item(BaseModel):
-    """Item database object."""
+class Stuff(BaseModel):
+    """Stuff database object."""
 
-    __tablename__ = 'items'
+    __tablename__ = 'stuff'
 
-    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
-    value = DB.Column(DB.Text, nullable=False)
-    owner = DB.Column(DB.BigInteger, DB.ForeignKey(User.phone))
+    id = DB.Column(DB.BigInteger, primary_key=True, autoincrement=True)
+    description = DB.Column(DB.Text, nullable=False)
+    user_id = DB.Column(DB.BigInteger, DB.ForeignKey(User.id))
 
     def dict(self):
         """JSON serializable representation of entry."""
-        return {'id': self.id, 'value': self.value, 'owner': self.owner, 'created_on': self.created_on}
+        return {'id': self.id,
+                'description': self.description,
+                'owner': self.user_id,
+                'created_on': self.created_on}

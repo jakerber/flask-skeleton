@@ -2,28 +2,13 @@
 import database
 from api import common
 
-def getUsers():
-    """Get users by phone number.
-
-    :field phone [int]: user phone number
-    :returns [dict|list]: user or list of users
-    :raises RuntimeError: if no users exists with the phone number
-    """
-    phone = common.parse('phone', int, optional=True)
-    if phone:
-        user = database.User.query.get(phone)
-        if not user:
-            raise RuntimeError(f'user not found')
-        return user.dict()
-    return [user.dict() for user in database.User.query.all()]
-
 def createUser():
     """Create a user.
 
     :field phone [int]: user phone number
     :field name [str]: user name
     :field password [str]: user password (will be encrypted)
-    :returns [dict]: newly created user with auth token
+    :returns [dict]: newly created user's info with auth token
     """
     phone = common.parse('phone', int)
     name = common.parse('name', str)
@@ -31,41 +16,54 @@ def createUser():
     encryptedPassword = common.encrypt(password)
     newUser = database.User(phone=phone, name=name, password=encryptedPassword).save()
     newUserInfo = newUser.dict()
-    newUserInfo['token'] = common.tokenize(newUser)
+    newUserInfo['auth_token'] = common.tokenize(newUser)  # attach auth token to response
     return newUserInfo
 
-def modifyUserName():
-    """Modify a user's name.
+def deleteUser():
+    """Delete a user.
 
-    :field phone [int]: user phone number
-    :field name: name to update
-    :raises RuntimeError: if no user exists with the phone number
-    :returns [dict]: updated user
+    :field password [str]: user password (will be encrypted)
+    :raises RuntimeError: if password is incorrect
     """
-    phone = common.parse('phone', int)
-    name = common.parse('name', str)
-    user = database.User.query.get(phone)
-    if not user:
-        raise RuntimeError(f'user not found')
-    user.name = name
-    user.save()
+    user = common.authenticate()
+    password = common.parse('password', str)
+    if user.password != common.encrypt(password):
+        raise RuntimeError('incorrect password')
+    for stuff in database.Stuff.query.filter_by(user_id=user.id).all():
+        stuff.delete()  # delete all stuff owned by user
+    user.delete()
+
+def getAllUsers():
+    """Get all existing users.
+
+    Does not authenticate - not exposed in production.
+
+    :returns [list]: user info as dicts
+    """
+    return [user.dict() for user in database.User.query.all()]
+
+def getUser():
+    """Get user.
+
+    :returns [dict]: user info
+    """
+    user = common.authenticate()
     return user.dict()
 
-def deleteUser():
-    """Delete a user by phone number.
+def updateUser():
+    """Update a user's information.
 
-    :field phone [int]: user phone number
-    :field password [str]: user password (will be encrypted)
-    :raises RuntimeError: if no user exists with the phone number and password
+    :field name []: updated name (optional)
+    :field phone [int]: updated phone number (optional)
+    :returns [dict]: updated user info
+    :raises ValueError: if no user info to update is provided
     """
-    phone = common.parse('phone', int)
-    password = common.parse('password', str)
-    user = database.User.query.get(phone)
-    if not user:
-        raise RuntimeError(f'user not found')
-    if user.password != common.encrypt(password):
-        raise RuntimeError(f'incorrect password')
-
-    # TODO: delete user's items
-
-    user.delete()
+    user = common.authenticate()
+    name = common.parse('name', str, optional=True)
+    phone = common.parse('phone', int, optional=True)
+    if not name and not phone:
+        raise ValueError('must provide name or phone to update')
+    user.name = name or user.name
+    user.phone = phone or user.phone
+    user.save()
+    return user.dict()

@@ -1,5 +1,6 @@
 """Common API module."""
 import constants
+import database
 import datetime
 import hashlib
 import flask
@@ -9,7 +10,38 @@ import jwt
 # https://developer.mozilla.org/docs/Web/HTTP/Status
 _EXCEPTION_TO_HTTP_STATUS_CODE = {
     'ValueError': 400,  # Bad Request
+    'AuthenticationError': 401  # Unauthorized
 }
+
+class AuthenticationError(Exception):
+    """Custom exception for authentication errors."""
+
+def authenticate():
+    """Validate authentication token.
+
+    :returns user [User]: authenticated user's database object
+    :raises AuthenticationError: if authentication fails
+    """
+    token = flask.request.headers.get('auth_token')
+    if not token:
+        raise AuthenticationError('missing auth_token')
+
+    # decode and validate token
+    try:
+        payload = jwt.decode(token, constants.SECRET_KEY, algorithms='HS256')
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationError('expired')
+    except jwt.DecodeError:
+        raise AuthenticationError('invalid token format')
+    if payload.get('ipa') != flask.request.remote_addr:
+        raise AuthenticationError('mismatched ip address')
+
+    # fetch user from token subject
+    userId = payload.get('sub')
+    user = database.User.query.get(userId)
+    if not user:
+        raise AuthenticationError('invalid user')
+    return user
 
 def encrypt(password):
     """Encrypt a plain text password.
@@ -18,17 +50,6 @@ def encrypt(password):
     :returns [str]: SHA256-encrypted password
     """
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
-
-def decode(token):
-    """Decode authentication token.
-
-    https://realpython.com/token-based-authentication-with-flask/
-
-    :param token [str]: auth token
-    :returns [str]: decoded user identifier (phone number)
-    """
-    payload = jwt.decode(token, constants.SECRET_KEY)
-    return payload['sub']
 
 def parse(name, type, optional=False):
     """Parse request parameter.
@@ -46,7 +67,7 @@ def parse(name, type, optional=False):
         raise ValueError(f'missing {name} parameter')
     return param
 
-def route(app, url, method, func, auth=True):
+def route(app, url, method, func):
     """Create API route.
 
     Generates routes that direct requests to functions within the application.
@@ -55,11 +76,10 @@ def route(app, url, method, func, auth=True):
     :param url [str]: url to route request from
     :param method [str]: http method type (GET, POST, etc.)
     :param func [function]: function to route request to
-    :param auth [bool]: if True, require authentication token
     """
     app.route(f'{constants.API_ROOT}/{url}',
               methods=[method],
-              defaults={'func': func, 'auth': auth})(_call)
+              defaults={'func': func})(_call)
 
 def tokenize(user):
     """
@@ -73,17 +93,17 @@ def tokenize(user):
     payload = {
         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=constants.AUTH_TOKEN_LIFESPAN_SEC),  # expiration date
         'iat': datetime.datetime.utcnow(),  # time created
-        'sub': user.phone  # subject
+        'sub': user.id,  # subject
+        'ipa': flask.request.remote_addr  # ip address
     }
     return jwt.encode(payload, constants.SECRET_KEY, algorithm='HS256')
 
-def _call(func, auth=True):
+def _call(func):
     """Call API function.
 
     Gracefully responds to requests that raise exceptions.
 
     :param func [function]: function to call
-    :param auth [bool]: if True, require authentication token
     :returns [tuple[dict, int]]: JSON response via helper functions
     """
     try:
@@ -112,9 +132,7 @@ def _failure(error):
     errorType = type(error).__name__
     resp['response']['error'] = errorType
     resp['response']['message'] = str(error)
-
-    # default status 500 Internal Server Error
-    return resp, _EXCEPTION_TO_HTTP_STATUS_CODE.get(errorType, 500)
+    return resp, _EXCEPTION_TO_HTTP_STATUS_CODE.get(errorType, 500)  # 500 Internal Server Error
 
 def _success(response=None):
     """Successful request response.

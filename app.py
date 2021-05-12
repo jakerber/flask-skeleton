@@ -8,7 +8,7 @@ import flask
 import json
 from api import auth
 from api import common
-from api import item
+from api import stuff
 from api import user
 
 # initialize Flask app
@@ -34,23 +34,25 @@ def root():
     return 'Hello, world!', 200
 
 # authentication operations
-common.route(app, url='auth', method='GET',    func=auth.signIn, auth=False)
+common.route(app, url='auth', method='GET',    func=auth.signIn)
 common.route(app, url='auth', method='DELETE', func=auth.signOut)
 
 # user operations
-common.route(app, url='user', method='PUT',    func=user.createUser, auth=False)
-common.route(app, url='user', method='POST',   func=user.modifyUserName)
+common.route(app, url='user', method='GET',    func=user.getUser)
+common.route(app, url='user', method='PUT',    func=user.createUser)
+common.route(app, url='user', method='POST',   func=user.updateUser)
 common.route(app, url='user', method='DELETE', func=user.deleteUser)
 
-# item operations
-common.route(app, url='item', method='PUT',    func=item.createItem)
-common.route(app, url='item', method='POST',   func=item.modifyItemValue)
-common.route(app, url='item', method='DELETE', func=item.deleteItem)
+# stuff operations
+common.route(app, url='stuff', method='GET',    func=stuff.getStuff)
+common.route(app, url='stuff', method='PUT',    func=stuff.createStuff)
+common.route(app, url='stuff', method='POST',   func=stuff.updateStuff)
+common.route(app, url='stuff', method='DELETE', func=stuff.deleteStuff)
 
 # test endpoints
 if constants.DEV_ENV:
-    common.route(app, url='user', method='GET', func=user.getUsers, auth=False)
-    common.route(app, url='item', method='GET', func=item.getItems, auth=False)
+    common.route(app, url='users', method='GET', func=user.getAllUsers)
+    common.route(app, url='stuffs', method='GET', func=stuff.getAllStuff)
 
 """
 Flask app runner.
