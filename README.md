@@ -77,7 +77,7 @@ Deploy the project on [Heroku](https://heroku.com) for free.
 
 2. Connect the Heroku app to a [GitHub](https://github.com/) repo containing this codebase.
 
-    ![alt text](docs/heroku-connect-github.png)
+    ![alt text](docs/heroku-deploy-github.png)
 
     * Enable `Automatic Deployment` from branch `main`
 
