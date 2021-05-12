@@ -1,4 +1,4 @@
-"""Backend server."""
+"""Flask app runner."""
 try:
     import constants  # safely initialize application constants
 except KeyError as error:
@@ -60,9 +60,6 @@ if constants.FLASK_ENV == 'development':
     common.route(app, url='stuffs', method='GET', func=stuff.getAllStuff)
     common.route(app, url='tokens', method='GET', func=auth.getBlacklistTokens)
 
-"""
-Flask app runner.
-"""
 
 if __name__ == '__main__':
     app.run()
