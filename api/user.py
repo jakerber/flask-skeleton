@@ -32,9 +32,22 @@ def createUser():
     newUser = database.User(phone=phone, name=name, password=encryptedPassword).save()
     return newUser.dict()
 
-def modifyUser():
-    """Modify a user."""
-    raise NotImplementedError  # TODO
+def modifyUserName():
+    """Modify a user's name.
+
+    :field phone [int]: user phone number
+    :field name: name to update
+    :raises RuntimeError: if no user exists with the phone number
+    :returns [dict]: updated user
+    """
+    phone = common.parse('phone', int)
+    name = common.parse('name', str)
+    user = database.User.query.get(phone)
+    if not user:
+        raise RuntimeError(f'user not found')
+    user.name = name
+    user.save()
+    return user.dict()
 
 def deleteUser():
     """Delete a user by phone number.
@@ -45,7 +58,7 @@ def deleteUser():
     """
     phone = common.parse('phone', int)
     password = common.parse('password', str)
-    user = database.User.query.filter_by(phone=phone).first()
+    user = database.User.query.get(phone)
     if not user:
         raise RuntimeError(f'user not found')
     if user.password != common.encrypt(password):

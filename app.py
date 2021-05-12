@@ -40,13 +40,13 @@ app.route(f'{constants.API_ROOT}/auth', methods=['DELETE'], defaults={'func': au
 # user operations
 app.route(f'{constants.API_ROOT}/user', methods=['GET'], defaults={'func': user.getUsers})(gateway)
 app.route(f'{constants.API_ROOT}/user', methods=['PUT'], defaults={'func': user.createUser})(gateway)
-app.route(f'{constants.API_ROOT}/user', methods=['POST'], defaults={'func': user.modifyUser})(gateway)
+app.route(f'{constants.API_ROOT}/user', methods=['POST'], defaults={'func': user.modifyUserName})(gateway)
 app.route(f'{constants.API_ROOT}/user', methods=['DELETE'], defaults={'func': user.deleteUser})(gateway)
 
 # item operations
 app.route(f'{constants.API_ROOT}/item', methods=['GET'], defaults={'func': item.getItems})(gateway)
 app.route(f'{constants.API_ROOT}/item', methods=['PUT'], defaults={'func': item.createItem})(gateway)
-app.route(f'{constants.API_ROOT}/item', methods=['POST'], defaults={'func': item.modifyItem})(gateway)
+app.route(f'{constants.API_ROOT}/item', methods=['POST'], defaults={'func': item.modifyItemValue})(gateway)
 app.route(f'{constants.API_ROOT}/item', methods=['DELETE'], defaults={'func': item.deleteItem})(gateway)
 
 """

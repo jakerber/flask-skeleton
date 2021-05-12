@@ -28,9 +28,22 @@ def createItem():
     newItem = database.Item(value=value, owner=owner).save()
     return newItem.dict()
 
-def modifyItem():
-    """Modify an item."""
-    raise NotImplementedError
+def modifyItemValue():
+    """Modify an item.
+
+    :field id: item id
+    :field value: value to update
+    :raises RuntimeError: if no items exist with the id
+    :returns [dict]: updated item
+    """
+    id = common.parse('id', int)
+    newValue = common.parse('value', str)
+    item = database.Item.query.get(id)
+    if not item:
+        raise RuntimeError(f'item not found')
+    item.value = newValue
+    item.save()
+    return item.dict()
 
 def deleteItem():
     """Delete an item by id.
