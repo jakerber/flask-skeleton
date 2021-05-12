@@ -53,8 +53,8 @@ def deleteUser():
     """Delete a user by phone number.
 
     :field phone [int]: user phone number
-    :field password [str]: user password (encrypted)
-    :raises RuntimeError: if no user exists with the phone number
+    :field password [str]: user password (will be encrypted)
+    :raises RuntimeError: if no user exists with the phone number and password
     """
     phone = common.parse('phone', int)
     password = common.parse('password', str)

@@ -1,5 +1,8 @@
 """Backend server."""
-import constants
+try:
+    import constants  # safely initialize application constants
+except KeyError as error:
+    raise RuntimeError(f'missing environment variable: {str(error)}')
 import database
 import flask
 import json
@@ -10,6 +13,8 @@ from api import user
 
 # initialize Flask app
 app = flask.Flask(__name__)
+
+
 
 # initialize SQLAlchemy database
 SQLALCHEMY_TRACK_MODIFICATIONS = constants.SQLALCHEMY_TRACK_MODIFICATIONS
