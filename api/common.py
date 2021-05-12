@@ -13,6 +13,9 @@ _EXCEPTION_TO_HTTP_STATUS_CODE = {
     'AuthenticationError': 401  # Unauthorized
 }
 
+# Global API spec
+_SPEC = {}
+
 
 class AuthenticationError(Exception):
     """Custom exception for authentication errors."""
@@ -29,7 +32,7 @@ def authenticate():
     if not token:
         raise AuthenticationError('missing auth token')
 
-    # decode and verify token
+    # Decode and verify token
     try:
         payload = jwt.decode(token, constants.SECRET_KEY, algorithms='HS256')
     except jwt.ExpiredSignatureError:
@@ -39,11 +42,11 @@ def authenticate():
     if payload.get('ipa') != flask.request.remote_addr:
         raise AuthenticationError('mismatched ip address')
 
-    # ensure user is not signed out
+    # Ensure user is not signed out
     if database.AuthTokenBlacklist.query.get(token):
         raise AuthenticationError('token signed out')
 
-    # fetch user from token subject
+    # Fetch user from token subject
     userId = payload.get('sub')
     user = database.User.query.get(userId)
     if not user:
@@ -147,7 +150,7 @@ def _failure(error):
     resp['response']['error'] = errorType
     resp['response']['message'] = str(error)
 
-    # default status 500 Internal Server Error
+    # Default status 500 Internal Server Error
     return resp, _EXCEPTION_TO_HTTP_STATUS_CODE.get(errorType, 500)
 
 
@@ -167,5 +170,5 @@ def _success(response=None):
     if response is not None:
         resp['response'] = response
 
-    # status 200 OK
+    # Status 200 OK
     return resp, 200

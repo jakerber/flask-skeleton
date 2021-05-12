@@ -13,8 +13,11 @@ def deleteUser():
     password = common.parse('password', str)
     if user.password != common.encrypt(password):
         raise RuntimeError('incorrect password')
+
+    # Delete all stuff owned by user
     for stuff in database.Stuff.query.filter_by(user_id=user.id).all():
-        stuff.delete()  # delete all stuff owned by user
+        stuff.delete()
+
     user.delete()
 
 

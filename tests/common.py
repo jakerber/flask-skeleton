@@ -2,6 +2,7 @@
 import unittest
 import database
 
+# Will be cleared before each test
 DATABASE_MODELS = [
     database.AuthTokenBlacklist,
     database.Stuff,
@@ -37,12 +38,12 @@ class APITestBase(unittest.TestCase):
         Removes all data from database and insert objects outlined in
         self._DATABASE_READY_STATE.
         """
-        # remove all data from database
+        # Remove all data from database
         for model in DATABASE_MODELS:
             for entry in model.query.all():
                 entry.delete()
 
-        # insert objects outlined in self._DATABASE_READY_STATE
+        # Insert objects outlined in self._DATABASE_READY_STATE
         for model in self._DATABASE_READY_STATE:
             if not hasattr(database, model):
                 raise ValueError(f'database model {model} does not exist')

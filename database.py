@@ -2,7 +2,7 @@
 import datetime
 import flask_sqlalchemy
 
-# global SQLAlchemy database instance
+# Global SQLAlchemy database instance
 DB = flask_sqlalchemy.SQLAlchemy()
 
 """

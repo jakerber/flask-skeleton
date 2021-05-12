@@ -1,6 +1,6 @@
 """Flask app runner."""
 try:
-    import constants  # safely initialize application constants
+    import constants  # Safely initialize application constants
 except KeyError as error:
     raise RuntimeError(f'missing environment variable: {str(error)}')
 import database
@@ -11,10 +11,10 @@ from api import common
 from api import stuff
 from api import user
 
-# initialize Flask app
+# Initialize Flask app
 app = flask.Flask(__name__)
 
-# initialize SQLAlchemy database
+# Connect to database
 SQLALCHEMY_TRACK_MODIFICATIONS = constants.SQLALCHEMY_TRACK_MODIFICATIONS
 SQLALCHEMY_DATABASE_URI = constants.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
@@ -23,7 +23,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI.replace(
     'postgresql://')
 database.DB.init_app(app)
 
-# create tables if necessary
+# Create tables if necessary
 with app.app_context():
     database.DB.create_all()
 
@@ -31,26 +31,34 @@ with app.app_context():
 API router.
 """
 
-# api root
+
+# Application root
+@app.route('/')
+def root():
+    """Returns HTML link to API root."""
+    return f'<a href="{constants.API_ROOT}">{constants.API_ROOT}</a>', 200
+
+
+# API root
 common.route(app, url='', method='GET', func=lambda: 'Hello, world!')
 
-# authentication operations
+# Authentication operations
 common.route(app, url='auth', method='GET',    func=auth.signIn)
 common.route(app, url='auth', method='DELETE', func=auth.signOut)
 common.route(app, url='auth', method='PUT',    func=auth.signUp)
 
-# user operations
+# User operations
 common.route(app, url='user', method='GET',    func=user.getUser)
 common.route(app, url='user', method='POST',   func=user.updateUser)
 common.route(app, url='user', method='DELETE', func=user.deleteUser)
 
-# stuff operations
+# Stuff operations
 common.route(app, url='stuff', method='GET',    func=stuff.getStuff)
 common.route(app, url='stuff', method='PUT',    func=stuff.createStuff)
 common.route(app, url='stuff', method='POST',   func=stuff.updateStuff)
 common.route(app, url='stuff', method='DELETE', func=stuff.deleteStuff)
 
-# test endpoints
+# Test endpoints
 if constants.FLASK_ENV == 'development':
     common.route(app, url='users',  method='GET', func=user.getAllUsers)
     common.route(app, url='stuffs', method='GET', func=stuff.getAllStuff)
