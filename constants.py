@@ -7,7 +7,7 @@ dotenv.load_dotenv(dotenv.find_dotenv())  # load from .env
 # API constants
 API_ROOT = '/api/v1'
 AUTH_TOKEN_LIFESPAN_SEC = int(os.environ['AUTH_TOKEN_LIFESPAN_SEC'])
-FLASK_ENV = bool(os.environ['FLASK_ENV'])
+FLASK_ENV = os.environ['FLASK_ENV']
 RESPONSE_TEMPLATE = {'success': True, 'response': ''}
 SECRET_KEY = os.environ['SECRET_KEY']
 

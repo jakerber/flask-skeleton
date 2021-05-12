@@ -6,15 +6,15 @@ import hashlib
 import flask
 import jwt
 
+# Global API specs
+_SPEC = {}
+
 # Exception type -> HTTP status code to respond with
 # https://developer.mozilla.org/docs/Web/HTTP/Status
 _EXCEPTION_TO_HTTP_STATUS_CODE = {
     'ValueError': 400,  # Bad Request
     'AuthenticationError': 401  # Unauthorized
 }
-
-# Global API spec
-_SPEC = {}
 
 
 class AuthenticationError(Exception):
@@ -63,6 +63,35 @@ def encrypt(password):
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 
+def getSpec():
+    """Get the API specs.
+
+    Format:
+    {
+        'route': {
+            'description': <description>
+            'fields': [<request fields>]
+            'raises': [<exceptions raised>]
+            'returns': [<response>]
+        }
+    {
+
+    :returns [dict]: API specs
+    """
+    specs = {}
+    for route in _SPEC:
+        if not _SPEC.get(route):
+            continue
+        docs = _SPEC.get(route).split('\n')
+        specs[route] = {
+            'description': docs[0],
+            'fields': [doc.strip() for doc in docs if ':field' in doc],
+            'raises': [doc.strip() for doc in docs if ':raises' in doc],
+            'returns': [doc.strip() for doc in docs if ':returns' in doc]
+        }
+    return specs
+
+
 def parse(name, type, optional=False):
     """Parse request parameter.
 
@@ -90,6 +119,7 @@ def route(app, url, method, func):
     :param method [str]: http method type (GET, POST, etc.)
     :param func [function]: function to route request to
     """
+    _SPEC[f'/{url} {method}'] = func.__doc__  # store spec for help page
     app.route(f'{constants.API_ROOT}/{url}',
               methods=[method],
               defaults={'func': func})(_call)
