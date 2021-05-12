@@ -1,7 +1,5 @@
 # Custom ignores
 .DS_Store
-tests/
-test.py
 _test.py
 notes.txt
 
