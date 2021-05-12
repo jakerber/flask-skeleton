@@ -40,10 +40,14 @@ def deleteUser():
     """Delete a user by phone number.
 
     :field phone [int]: user phone number
+    :field password [str]: user password (encrypted)
     :raises RuntimeError: if no user exists with the phone number
     """
     phone = common.parse('phone', int)
+    password = common.parse('password', str)
     user = database.User.query.filter_by(phone=phone).first()
     if not user:
         raise RuntimeError(f'user not found')
+    if user.password != common.encrypt(password):
+        raise RuntimeError(f'incorrect password')
     user.delete()
