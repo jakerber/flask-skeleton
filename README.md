@@ -87,4 +87,4 @@ Deploy the project on [Heroku](https://heroku.com) for free.
 
     ![alt text](docs/heroku-postgres-addon.png)
 
-    * This will add the DATABASE_URL` to your Heroku app
+    * This will add the `DATABASE_URL` constant to your Heroku app
