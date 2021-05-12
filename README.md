@@ -33,7 +33,7 @@ Setup the project by installing the requirements and running a [PostgreSQL](http
 
 Test the project by running the [Flask](https://flask.palletsprojects.com/en/2.0.x/) app locally and querying the API using [Postman](https://www.postman.com/).
 
-1. Add `.env` file to the root project directory
+1. Add an `.env` file to the root project directory
 
     ```
     AUTH_TOKEN_LIFESPAN_SEC=180
