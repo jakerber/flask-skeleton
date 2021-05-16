@@ -6,7 +6,7 @@ from utils import request_utils
 
 
 def deleteUser():
-    """Delete a user.
+    """Delete an authenticated user.
 
     :field password [str]: user password (will be encrypted)
     :raises UnprocessableRequest: if password is incorrect
@@ -24,7 +24,7 @@ def deleteUser():
 
 
 def getUser():
-    """Get user.
+    """Get authenticated user.
 
     :returns [dict]: user info
     """
@@ -33,9 +33,9 @@ def getUser():
 
 
 def updateUser():
-    """Update a user's information.
+    """Update authenticated user info.
 
-    :field name []: updated name (optional)
+    :field name [str]: updated name (optional)
     :field phone [int]: updated phone number (optional)
     :returns [dict]: updated user info
     :raises MissingParameter: if no user info to update is provided

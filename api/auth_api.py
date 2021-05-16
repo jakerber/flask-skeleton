@@ -25,9 +25,9 @@ def signIn():
 
 
 def signOut():
-    """Sign out a user.
+    """Sign out an authenticated user.
 
-    Blacklist's user's current auth token.
+    Blacklists user's current auth token.
     """
     auth_utils.authenticate()
     token = flask.request.headers.get('auth_token')
@@ -47,8 +47,8 @@ def signUp():
     password = request_utils.parse('password', str)
     encryptedPassword = auth_utils.encrypt(password)
     newUser = models.User(phone=phone,
-                            name=name,
-                            password=encryptedPassword).save()
+                          name=name,
+                          password=encryptedPassword).save()
     newUserInfo = newUser.dict()
     newUserInfo['auth_token'] = auth_utils.tokenize(newUser)  # attach auth token
     return newUserInfo

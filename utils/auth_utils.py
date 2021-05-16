@@ -44,8 +44,10 @@ def authenticate(admin=False):
     if not user:
         raise errors.AuthenticationError('user does not exist')
 
-    # Verify user is admin if necessary
-    if admin and not models.Admin.query.get(userId):
+    # Verify user is an admin
+    if models.Admin.query.filter_by(user_id=userId).first():
+        user.is_admin = True
+    elif admin:
         raise errors.AuthenticationError('user is not an admin')
 
     return user

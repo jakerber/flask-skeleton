@@ -20,6 +20,8 @@ def createStuff():
 def deleteStuff():
     """Delete stuff by id.
 
+    Allows admin execution.
+
     :field id [int]: stuff id
     :raises UnprocessableRequest: if owner is invalid or stuff does not exist
     """
@@ -28,13 +30,13 @@ def deleteStuff():
     stuff = models.Stuff.query.get(id)
     if not stuff:
         raise errors.UnprocessableRequest(f'no stuff found with id {id}')
-    if stuff.user_id != user.id:
+    if stuff.user_id != user.id and not user.is_admin:
         raise errors.UnprocessableRequest('invalid owner')
     stuff.delete()
 
 
 def getStuff():
-    """Get stuff by owner.
+    """Get stuff by authenticated owner.
 
     :returns [list]: stuff as dicts
     """
@@ -44,7 +46,9 @@ def getStuff():
 
 
 def updateStuff():
-    """Update stuff.
+    """Update stuff by id.
+
+    Allows admin execution.
 
     :field id [int]: stuff id
     :field description [str]: description to update
@@ -57,7 +61,7 @@ def updateStuff():
     stuff = models.Stuff.query.get(id)
     if not stuff:
         raise errors.UnprocessableRequest(f'no stuff found with id {id}')
-    if stuff.user_id != user.id:
+    if stuff.user_id != user.id and not user.is_admin:
         raise errors.UnprocessableRequest('invalid owner')
     stuff.description = newDescription
     stuff.save()

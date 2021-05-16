@@ -38,12 +38,16 @@ def route(app):
     _createRoute(app, url='stuff', method='DELETE', func=stuff_api.deleteStuff)
 
     # Admin endpoints
-    _createRoute(app, url='admin/users',
-        method='GET', func=admin_api.getAllUsers)
-    _createRoute(app, url='admin/stuff',
-        method='GET', func=admin_api.getAllStuff)
-    _createRoute(app, url='admin/tokens',
-        method='GET', func=admin_api.getBlacklistedTokens)
+    _createRoute(app, url='admin/user',   method='GET',
+        func=admin_api.getUser)
+    _createRoute(app, url='admin/users',  method='GET',
+        func=admin_api.getAllUsers)
+    _createRoute(app, url='admin/stuff',  method='GET',
+        func=admin_api.getAllStuff)
+    _createRoute(app, url='admin/tokens', method='GET',
+        func=admin_api.getBlacklistedTokens)
+    _createRoute(app, url='admin/user',   method='DELETE',
+        func=admin_api.deleteUser)
 
 
 def _createRoute(app, url, method, func):

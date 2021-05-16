@@ -46,6 +46,7 @@ class User(BaseModel):
     phone = DB.Column(DB.BigInteger, unique=True, nullable=False)
     name = DB.Column(DB.Text, nullable=False)
     password = DB.Column(DB.Text, nullable=False)
+    is_admin = False  # dynamically set
 
     def dict(self):
         """JSON serializable representation of entry."""
