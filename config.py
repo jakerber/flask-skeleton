@@ -1,4 +1,4 @@
-"""Application constants."""
+"""Application configuration."""
 import dotenv
 import os
 

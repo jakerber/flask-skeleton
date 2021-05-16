@@ -1,7 +1,9 @@
 """Authentication API endpoints."""
-import database
 import flask
-from api import common
+from utils import auth_utils
+from utils import request_utils
+import errors
+from db import models
 
 
 def getBlacklistTokens():
@@ -12,7 +14,7 @@ def getBlacklistTokens():
     :returns [list]: blacklisted tokens
     """
     return [token.dict().get('token')
-            for token in database.AuthTokenBlacklist.query.all()]
+            for token in models.AuthTokenBlacklist.query.all()]
 
 
 def signIn():
@@ -23,14 +25,14 @@ def signIn():
     :raises AuthenticationError: if no user exists with the phone and password
     :returns [str]: authentication token
     """
-    phone = common.parse('phone', int)
-    password = common.parse('password', str)
-    user = database.User.query.filter_by(phone=phone).first()
+    phone = request_utils.parse('phone', int)
+    password = request_utils.parse('password', str)
+    user = models.User.query.filter_by(phone=phone).first()
     if not user:
-        raise common.AuthenticationError('user does not exist')
-    if user.password != common.encrypt(password):
-        raise common.AuthenticationError('incorrect password')
-    return common.tokenize(user)
+        raise errors.AuthenticationError(f'no user found with phone {phone}')
+    if user.password != auth_utils.encrypt(password):
+        raise errors.AuthenticationError('incorrect password')
+    return auth_utils.tokenize(user)
 
 
 def signOut():
@@ -38,9 +40,9 @@ def signOut():
 
     Blacklist's user's current auth token.
     """
-    common.authenticate()
+    auth_utils.authenticate()
     token = flask.request.headers.get('auth_token')
-    database.AuthTokenBlacklist(token=token).save()
+    models.AuthTokenBlacklist(token=token).save()
 
 
 def signUp():
@@ -51,13 +53,13 @@ def signUp():
     :field password [str]: user password (will be encrypted)
     :returns [dict]: newly created user's info with auth token
     """
-    phone = common.parse('phone', int)
-    name = common.parse('name', str)
-    password = common.parse('password', str)
-    encryptedPassword = common.encrypt(password)
-    newUser = database.User(phone=phone,
+    phone = request_utils.parse('phone', int)
+    name = request_utils.parse('name', str)
+    password = request_utils.parse('password', str)
+    encryptedPassword = auth_utils.encrypt(password)
+    newUser = models.User(phone=phone,
                             name=name,
                             password=encryptedPassword).save()
     newUserInfo = newUser.dict()
-    newUserInfo['auth_token'] = common.tokenize(newUser)  # attach auth token
+    newUserInfo['auth_token'] = auth_utils.tokenize(newUser)  # attach auth token
     return newUserInfo

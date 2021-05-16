@@ -1,7 +1,7 @@
 """Authentication API test module."""
 import unittest
-from tests import common
+from tests import utils
 
 
-class AuthAPITests(common.APITestBase):
+class AuthAPITests(utils.APITestBase):
     """Authentication API integration tests."""

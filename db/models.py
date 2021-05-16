@@ -1,13 +1,10 @@
-"""Database operations."""
+"""Database models."""
 import datetime
-import flask_sqlalchemy
+import errors
+from db import database
 
 # Global SQLAlchemy database instance
-DB = flask_sqlalchemy.SQLAlchemy()
-
-"""
-Data models.
-"""
+DB = database.DB
 
 
 class BaseModel(DB.Model):
@@ -20,14 +17,11 @@ class BaseModel(DB.Model):
 
     def save(self):
         """Save to database."""
-        DB.session.add(self)
-        DB.session.commit()
-        return self
+        return database.save(self)
 
     def delete(self):
         """Delete from database."""
-        DB.session.delete(self)
-        DB.session.commit()
+        database.delete(self)
 
 
 class AuthTokenBlacklist(BaseModel):

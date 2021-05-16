@@ -3,7 +3,7 @@
 Runs a real Flask app instance to connect to the database.
 """
 import app
-import constants
+import config
 import multiprocessing
 import unittest
 from tests import auth_test

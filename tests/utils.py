@@ -1,12 +1,12 @@
-"""Common API testing library."""
+"""API testing utility library."""
 import unittest
-import database
+from db import models
 
 # Will be cleared before each test
 DATABASE_MODELS = [
-    database.AuthTokenBlacklist,
-    database.Stuff,
-    database.User
+    models.AuthTokenBlacklist,
+    models.Stuff,
+    models.User
 ]
 
 
@@ -54,8 +54,8 @@ class APITestBase(unittest.TestCase):
 
         # Insert objects outlined in self._DATABASE_READY_STATE
         for model in self._DATABASE_READY_STATE:
-            if not hasattr(database, model):
-                raise ValueError(f'database model {model} does not exist')
+            if not hasattr(models, model):
+                raise RuntimeError(f'database model {model} does not exist')
             for entry in self._DATABASE_READY_STATE.get(model):
-                newEntry = getattr(database, model)(**entry)
+                newEntry = getattr(models, model)(**entry)
                 newEntry.save()

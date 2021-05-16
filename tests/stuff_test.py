@@ -1,7 +1,7 @@
 """Stuff API test module."""
 import unittest
-from tests import common
+from tests import utils
 
 
-class StuffAPITests(common.APITestBase):
+class StuffAPITests(utils.APITestBase):
     """Stuff API integration tests."""

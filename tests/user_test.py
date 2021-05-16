@@ -1,7 +1,7 @@
 """User API test module."""
 import unittest
-from tests import common
+from tests import utils
 
 
-class UserAPITests(common.APITestBase):
+class UserAPITests(utils.APITestBase):
     """User API integration tests."""
