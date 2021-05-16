@@ -6,17 +6,6 @@ import errors
 from db import models
 
 
-def getBlacklistTokens():
-    """Get all blacklisted auth tokens.
-
-    Does not authenticate - not exposed in production.
-
-    :returns [list]: blacklisted tokens
-    """
-    return [token.dict().get('token')
-            for token in models.AuthTokenBlacklist.query.all()]
-
-
 def signIn():
     """Sign in a user.
 

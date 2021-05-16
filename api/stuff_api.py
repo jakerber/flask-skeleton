@@ -33,16 +33,6 @@ def deleteStuff():
     stuff.delete()
 
 
-def getAllStuff():
-    """Get all existing stuff.
-
-    Does not authenticate - not exposed in production.
-
-    :returns [list]: stuff as dicts
-    """
-    return [entry.dict() for entry in models.Stuff.query.all()]
-
-
 def getStuff():
     """Get stuff by owner.
 

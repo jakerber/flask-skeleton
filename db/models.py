@@ -56,6 +56,21 @@ class User(BaseModel):
                 'created_on': self.created_on}
 
 
+class Admin(BaseModel):
+    """Admin database object."""
+
+    __tablename__ = 'admins'
+
+    id = DB.Column(DB.BigInteger, primary_key=True, autoincrement=True)
+    user_id = DB.Column(DB.BigInteger, DB.ForeignKey(User.id))
+
+    def dict(self):
+        """JSON serializable representation of entry."""
+        return {'id': self.id,
+                'user_id': self.user_id,
+                'created_on': self.created_on}
+
+
 class Stuff(BaseModel):
     """Stuff database object."""
 

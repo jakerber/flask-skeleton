@@ -25,3 +25,8 @@ VALUES
 INSERT INTO auth_token_blacklist (token, created_on)
 VALUES
     ('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA4MDA2NzEsImlhdCI6MTYyMDgwMDQ5MSwic3ViIjoyLCJpcGEiOiIxMjcuMC4wLjEifQ.OijYY0CvOb3w-Noh_ZLNcWWC3iET8CzCH8E1RiWb3FI', 'Wed, 12 May 2021 02:20:07 GMT');
+
+-- Sample admin table entries
+INSERT INTO admins (id, user_id, created_on)
+VALUES
+    (1, 1, 'Wed, 12 May 2021 02:20:08 GMT');

@@ -5,7 +5,7 @@ https://developer.mozilla.org/docs/Web/HTTP/Status
 
 
 class CustomException(Exception):
-    """Custom API exception base class."""
+    """Custom exception base class."""
 
     httpResponseCode = 500  # Internal Server Error
 

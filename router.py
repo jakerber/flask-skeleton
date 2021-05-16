@@ -1,5 +1,6 @@
 """API request router."""
 import config
+from api import admin_api
 from api import auth_api
 from api import stuff_api
 from api import user_api
@@ -36,11 +37,13 @@ def route(app):
     _createRoute(app, url='stuff', method='POST',   func=stuff_api.updateStuff)
     _createRoute(app, url='stuff', method='DELETE', func=stuff_api.deleteStuff)
 
-    # Test endpoints
-    if config.FLASK_ENV == 'development':
-        _createRoute(app, url='stuffs', method='GET', func=stuff_api.getAllStuff)
-        _createRoute(app, url='users',  method='GET', func=user_api.getAllUsers)
-        _createRoute(app, url='tokens', method='GET', func=auth_api.getBlacklistTokens)
+    # Admin endpoints
+    _createRoute(app, url='admin/users',
+        method='GET', func=admin_api.getAllUsers)
+    _createRoute(app, url='admin/stuff',
+        method='GET', func=admin_api.getAllStuff)
+    _createRoute(app, url='admin/tokens',
+        method='GET', func=admin_api.getBlacklistedTokens)
 
 
 def _createRoute(app, url, method, func):

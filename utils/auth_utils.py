@@ -8,9 +8,10 @@ import errors
 from db import models
 
 
-def authenticate():
+def authenticate(admin=False):
     """Validate authentication token.
 
+    :param admin [bool]: authenticate with admin privileges
     :header auth_token [str]: authentication token
     :returns user [User]: authenticated user's database object
     :raises MissingParameter: if auth token is missing from request header
@@ -27,8 +28,11 @@ def authenticate():
         raise errors.AuthenticationError('session expired')
     except jwt.DecodeError:
         raise errors.AuthenticationError('invalid token format')
-    if payload.get('ipa') != flask.request.remote_addr:
-        raise errors.AuthenticationError('mismatched ip address')
+    ipAddress = payload.get('ipa')
+    if ipAddress != flask.request.remote_addr:
+        raise errors.AuthenticationError(
+            'mismatched ip address: tokenized address '
+            '{ipAddress} != current address {flask.request.remote_addr}')
 
     # Ensure user is not signed out
     if models.AuthTokenBlacklist.query.get(token):
@@ -39,6 +43,11 @@ def authenticate():
     user = models.User.query.get(userId)
     if not user:
         raise errors.AuthenticationError('user does not exist')
+
+    # Verify user is admin if necessary
+    if admin and not models.Admin.query.get(userId):
+        raise errors.AuthenticationError('user is not an admin')
+
     return user
 
 

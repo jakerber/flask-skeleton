@@ -66,7 +66,7 @@ def _failure(error):
 
     # Default status 500 Internal Server Error
     responseCode = 500
-    if isinstance(error, error_utils.CustomException):
+    if isinstance(error, errors.CustomException):
         responseCode = error.httpResponseCode
     return resp, responseCode
 

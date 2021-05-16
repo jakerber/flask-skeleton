@@ -23,16 +23,6 @@ def deleteUser():
     user.delete()
 
 
-def getAllUsers():
-    """Get all existing users.
-
-    Does not authenticate - not exposed in production.
-
-    :returns [list]: user info as dicts
-    """
-    return [user.dict() for user in models.User.query.all()]
-
-
 def getUser():
     """Get user.
 
