@@ -1,5 +1,4 @@
 """Authentication API test module."""
-import unittest
 from tests import utils
 
 
