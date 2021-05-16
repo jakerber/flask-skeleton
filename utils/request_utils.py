@@ -38,7 +38,7 @@ def parse(name, format, optional=False):
                 f"unable to parse '{param}' into {format.__name__}: "
                 f'{str(error)}')
     elif not optional:
-        raise errors.MissingParameter(f'missing {name} parameter')
+        raise errors.MissingParameter(f'{name}')
     return param  # optional parameter is None
 
 

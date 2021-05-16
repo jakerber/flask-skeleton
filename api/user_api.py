@@ -37,15 +37,18 @@ def updateUser():
 
     :field name [str]: updated name (optional)
     :field phone [int]: updated phone number (optional)
+    :field password [str]: updated password (optional - will be encrypted)
     :returns [dict]: updated user info
     :raises MissingParameter: if no user info to update is provided
     """
     user = auth_utils.authenticate()
     name = request_utils.parse('name', str, optional=True)
     phone = request_utils.parse('phone', int, optional=True)
-    if not name and not phone:
-        raise errors.MissingParameter('must provide name or phone to update')
+    password = request_utils.parse('password', str, optional=True)
+    if not name and not phone and not password:
+        raise errors.MissingParameter('name|phone|password')
     user.name = name or user.name
     user.phone = phone or user.phone
+    user.password = auth_utils.encrypt(password) if password else user.password
     user.save()
     return user.dict()
