@@ -1,12 +1,12 @@
-"""Admin API endpoints.
+"""Admin API endpoint functions.
 
 All endpoints require administrative privileges.
 """
 import config
 import errors
 from db import models
-from utils import auth_utils
-from utils import request_utils
+from utils import authenticator
+from utils import handler
 
 
 def deleteUser():
@@ -15,8 +15,8 @@ def deleteUser():
     :field id [int]: user id
     :raises UnprocessableRequest: if no users exists with the id
     """
-    auth_utils.authenticate(admin=True)
-    userId = request_utils.parse('id', int)
+    authenticator.authenticate(admin=True)
+    userId = handler.parse('id', int)
 
     # Get user from database
     user = models.User.query.filter_by(id=userId).first()
@@ -35,7 +35,7 @@ def getAllStuff():
 
     :returns [list]: stuff as dicts
     """
-    auth_utils.authenticate(admin=True)
+    authenticator.authenticate(admin=True)
     return [entry.dict() for entry in models.Stuff.query.all()]
 
 
@@ -44,7 +44,7 @@ def getBlacklistedTokens():
 
     :returns [list]: blacklisted tokens
     """
-    auth_utils.authenticate(admin=True)
+    authenticator.authenticate(admin=True)
     return [token.dict().get('token')
             for token in models.AuthTokenBlacklist.query.all()]
 
@@ -54,7 +54,7 @@ def getAllUsers():
 
     :returns [list]: user info as dicts
     """
-    auth_utils.authenticate(admin=True)
+    authenticator.authenticate(admin=True)
     return [user.dict() for user in models.User.query.all()]
 
 
@@ -65,8 +65,8 @@ def getUser():
     :returns [dict]: user info
     :raises UnprocessableRequest: if no users exists with the id
     """
-    auth_utils.authenticate(admin=True)
-    userId = request_utils.parse('id', int)
+    authenticator.authenticate(admin=True)
+    userId = handler.parse('id', int)
 
     # Get user from database
     user = models.User.query.filter_by(id=userId).first()

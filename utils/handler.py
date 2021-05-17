@@ -1,8 +1,8 @@
-"""API request utilities."""
+"""API request handling utility functions."""
 import config
 import datetime
-import flask
 import errors
+import flask
 
 
 def call(func):

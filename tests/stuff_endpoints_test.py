@@ -1,4 +1,4 @@
-"""Stuff API test module."""
+"""Stuff API endpoints test module."""
 from tests import utils
 
 

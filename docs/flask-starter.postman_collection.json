@@ -486,7 +486,7 @@
 					"response": []
 				},
 				{
-					"name": "get users",
+					"name": "get all users",
 					"request": {
 						"method": "GET",
 						"header": [

@@ -1,9 +1,9 @@
-"""Authentication API endpoints."""
-import flask
-from utils import auth_utils
-from utils import request_utils
+"""Authentication API endpoint functions."""
 import errors
+import flask
 from db import models
+from utils import authenticator
+from utils import handler
 
 
 def signIn():
@@ -14,14 +14,14 @@ def signIn():
     :raises AuthenticationError: if no user exists with the phone and password
     :returns [str]: authentication token
     """
-    phone = request_utils.parse('phone', int)
-    password = request_utils.parse('password', str)
+    phone = handler.parse('phone', int)
+    password = handler.parse('password', str)
     user = models.User.query.filter_by(phone=phone).first()
     if not user:
         raise errors.AuthenticationError(f'no user found with phone {phone}')
-    if user.password != auth_utils.encrypt(password):
+    if user.password != authenticator.encrypt(password):
         raise errors.AuthenticationError('incorrect password')
-    return auth_utils.tokenize(user)
+    return authenticator.tokenize(user)
 
 
 def signOut():
@@ -29,7 +29,7 @@ def signOut():
 
     Blacklists user's current auth token.
     """
-    auth_utils.authenticate()
+    authenticator.authenticate()
     token = flask.request.headers.get('auth_token')
     models.AuthTokenBlacklist(token=token).save()
 
@@ -42,13 +42,13 @@ def signUp():
     :field password [str]: user password (will be encrypted)
     :returns [dict]: newly created user's info with auth token
     """
-    phone = request_utils.parse('phone', int)
-    name = request_utils.parse('name', str)
-    password = request_utils.parse('password', str)
-    encryptedPassword = auth_utils.encrypt(password)
+    phone = handler.parse('phone', int)
+    name = handler.parse('name', str)
+    password = handler.parse('password', str)
+    encryptedPassword = authenticator.encrypt(password)
     newUser = models.User(phone=phone,
                           name=name,
                           password=encryptedPassword).save()
     newUserInfo = newUser.dict()
-    newUserInfo['auth_token'] = auth_utils.tokenize(newUser)  # attach auth token
+    newUserInfo['auth_token'] = authenticator.tokenize(newUser)  # attach auth token
     return newUserInfo

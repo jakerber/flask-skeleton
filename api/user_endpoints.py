@@ -1,8 +1,8 @@
-"""User API endpoints."""
-from db import models
-from utils import auth_utils
+"""User API endpoint functions."""
 import errors
-from utils import request_utils
+from db import models
+from utils import authenticator
+from utils import handler
 
 
 def deleteUser():
@@ -11,9 +11,9 @@ def deleteUser():
     :field password [str]: user password (will be encrypted)
     :raises AuthenticationError: if password is incorrect
     """
-    user = auth_utils.authenticate()
-    password = request_utils.parse('password', str)
-    if user.password != auth_utils.encrypt(password):
+    user = authenticator.authenticate()
+    password = handler.parse('password', str)
+    if user.password != authenticator.encrypt(password):
         raise errors.AuthenticationError('incorrect password')
 
     # Delete all stuff owned by user
@@ -28,7 +28,7 @@ def getUser():
 
     :returns [dict]: user info
     """
-    user = auth_utils.authenticate()
+    user = authenticator.authenticate()
     return user.dict()
 
 
@@ -41,14 +41,14 @@ def updateUser():
     :returns [dict]: updated user info
     :raises MissingParameter: if no user info to update is provided
     """
-    user = auth_utils.authenticate()
-    name = request_utils.parse('name', str, optional=True)
-    phone = request_utils.parse('phone', int, optional=True)
-    password = request_utils.parse('password', str, optional=True)
+    user = authenticator.authenticate()
+    name = handler.parse('name', str, optional=True)
+    phone = handler.parse('phone', int, optional=True)
+    password = handler.parse('password', str, optional=True)
     if not name and not phone and not password:
         raise errors.MissingParameter('name|phone|password')
     user.name = name or user.name
     user.phone = phone or user.phone
-    user.password = auth_utils.encrypt(password) if password else user.password
+    user.password = authenticator.encrypt(password) if password else user.password
     user.save()
     return user.dict()

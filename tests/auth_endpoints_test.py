@@ -1,4 +1,4 @@
-"""Authentication API test module."""
+"""Authentication API endpoints test module."""
 from tests import utils
 
 

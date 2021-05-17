@@ -1,10 +1,10 @@
-"""API authentication utilities."""
+"""API authentication utility functions."""
 import config
 import datetime
-import hashlib
-import flask
-import jwt
 import errors
+import flask
+import hashlib
+import jwt
 from db import models
 
 

@@ -6,9 +6,6 @@ except KeyError as error:
 import flask
 import json
 import router
-from api import auth_api
-from api import stuff_api
-from api import user_api
 from db import database
 
 # Initialize Flask app

@@ -1,4 +1,4 @@
-"""API testing utility library."""
+"""Testing utility library."""
 import unittest
 from db import models
 

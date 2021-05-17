@@ -1,8 +1,8 @@
-"""Stuff API endpoints."""
-from db import models
-from utils import auth_utils
+"""Stuff API endpoint functions."""
 import errors
-from utils import request_utils
+from db import models
+from utils import authenticator
+from utils import handler
 
 
 def createStuff():
@@ -11,8 +11,8 @@ def createStuff():
     :field description [str]: description of stuff
     :return [dict]: newly created stuff
     """
-    user = auth_utils.authenticate()
-    description = request_utils.parse('description', str)
+    user = authenticator.authenticate()
+    description = handler.parse('description', str)
     newStuff = models.Stuff(description=description, user_id=user.id).save()
     return newStuff.dict()
 
@@ -25,8 +25,8 @@ def deleteStuff():
     :field id [int]: stuff id
     :raises UnprocessableRequest: if owner is invalid or stuff does not exist
     """
-    user = auth_utils.authenticate()
-    id = request_utils.parse('id', int)
+    user = authenticator.authenticate()
+    id = handler.parse('id', int)
     stuff = models.Stuff.query.get(id)
     if not stuff:
         raise errors.UnprocessableRequest(f'no stuff found with id {id}')
@@ -40,7 +40,7 @@ def getStuff():
 
     :returns [list]: stuff as dicts
     """
-    user = auth_utils.authenticate()
+    user = authenticator.authenticate()
     stuff = models.Stuff.query.filter_by(user_id=user.id).all()
     return [entry.dict() for entry in stuff]
 
@@ -55,9 +55,9 @@ def updateStuff():
     :raises UnprocessableRequest: if owner is invalid or stuff does not exist
     :returns [dict]: updated stuff
     """
-    user = auth_utils.authenticate()
-    id = request_utils.parse('id', int)
-    newDescription = request_utils.parse('description', str)
+    user = authenticator.authenticate()
+    id = handler.parse('id', int)
+    newDescription = handler.parse('description', str)
     stuff = models.Stuff.query.get(id)
     if not stuff:
         raise errors.UnprocessableRequest(f'no stuff found with id {id}')

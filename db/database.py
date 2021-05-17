@@ -1,6 +1,6 @@
 """Database operations."""
-import flask_sqlalchemy
 import errors
+import flask_sqlalchemy
 
 # Global database instance
 DB = flask_sqlalchemy.SQLAlchemy()
