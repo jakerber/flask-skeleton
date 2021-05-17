@@ -19,8 +19,7 @@ def route(app):
         return f'<a href="{config.API_ROOT}">{config.API_ROOT}</a>'
 
     # API root
-    if config.FLASK_ENV == 'development':
-        _createRoute(app, url='', method='GET', func=lambda: 'Bleep bloop')
+    _createRoute(app, url='', method='GET', func=lambda: 'Bleep bloop')
 
     # Authentication operations
     _createRoute(app, url='auth', method='GET',    func=auth_api.signIn)

@@ -20,7 +20,7 @@ def createStuff():
 def deleteStuff():
     """Delete stuff by id.
 
-    Allows admin execution.
+    Administrators can execute.
 
     :field id [int]: stuff id
     :raises UnprocessableRequest: if owner is invalid or stuff does not exist
@@ -48,7 +48,7 @@ def getStuff():
 def updateStuff():
     """Update stuff by id.
 
-    Allows admin execution.
+    Administrators can execute.
 
     :field id [int]: stuff id
     :field description [str]: description to update

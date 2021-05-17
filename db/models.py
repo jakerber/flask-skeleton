@@ -12,7 +12,8 @@ class BaseModel(DB.Model):
 
     __abstract__ = True
 
-    created_on = DB.Column(DB.DateTime, nullable=False,
+    created_on = DB.Column(DB.DateTime,
+                           nullable=False,
                            default=datetime.datetime.utcnow())
 
     def save(self):
@@ -63,7 +64,8 @@ class Admin(BaseModel):
     __tablename__ = 'admins'
 
     id = DB.Column(DB.BigInteger, primary_key=True, autoincrement=True)
-    user_id = DB.Column(DB.BigInteger, DB.ForeignKey(User.id))
+    user_id = DB.Column(DB.BigInteger,
+                        DB.ForeignKey(User.id, ondelete='CASCADE'))
 
     def dict(self):
         """JSON serializable representation of entry."""
@@ -79,7 +81,8 @@ class Stuff(BaseModel):
 
     id = DB.Column(DB.BigInteger, primary_key=True, autoincrement=True)
     description = DB.Column(DB.Text, nullable=False)
-    user_id = DB.Column(DB.BigInteger, DB.ForeignKey(User.id))
+    user_id = DB.Column(DB.BigInteger,
+                        DB.ForeignKey(User.id, ondelete='CASCADE'))
 
     def dict(self):
         """JSON serializable representation of entry."""

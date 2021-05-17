@@ -56,7 +56,7 @@ Test the project by running the [Flask](https://flask.palletsprojects.com/en/2.0
 
     * Download [Postman](https://www.postman.com/downloads/)
 
-    * Import [this](docs/flask_starter.postman_collection.json) test collection
+    * Import [this](docs/flask-starter.postman_collection.json) test collection
 
     * Executing Postman requests to the Flask app running locally
 

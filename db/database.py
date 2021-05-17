@@ -6,29 +6,36 @@ import errors
 DB = flask_sqlalchemy.SQLAlchemy()
 
 
-def save(entry):
-    """Save entry to the database.
-
-    :param entry [BaseModel]: database entry model
-    :returns [BaseModel]: the entry
-    :raises DatabaseError: if unable to save entry
-    """
-    DB.session.add(entry)
-    try:
-        DB.session.commit()
-    except Exception as error:
-        raise errors.DatabaseError(f'unable to save entry: {str(error)}')
-    return entry
-
-
-def delete(entry):
+def delete(entry, commit=True):
     """Delete entry from the database.
 
     :param entry [BaseModel]: database entry model
-    :raises DatabaseError: if unable to save entry
+    :param commit [bool]: immediately commit the operation
     """
     DB.session.delete(entry)
+    if commit:
+        _commit()
+
+
+def save(entry, commit=True):
+    """Save entry to the database.
+
+    :param entry [BaseModel]: database entry model
+    :param commit [bool]: immediately commit the operation
+    :returns [BaseModel]: the entry
+    """
+    DB.session.add(entry)
+    if commit:
+        _commit()
+    return entry
+
+
+def _commit():
+    """Commit database transaction.
+
+    :raises DatabaseError: if unable to commit
+    """
     try:
         DB.session.commit()
     except Exception as error:
-        raise errors.DatabaseError(f'unable to save entry: {str(error)}')
+        raise errors.DatabaseError(f'{str(error)}')

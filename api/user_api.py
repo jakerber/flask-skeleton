@@ -9,12 +9,12 @@ def deleteUser():
     """Delete an authenticated user.
 
     :field password [str]: user password (will be encrypted)
-    :raises UnprocessableRequest: if password is incorrect
+    :raises AuthenticationError: if password is incorrect
     """
     user = auth_utils.authenticate()
     password = request_utils.parse('password', str)
     if user.password != auth_utils.encrypt(password):
-        raise errors.UnprocessableRequest('incorrect password')
+        raise errors.AuthenticationError('incorrect password')
 
     # Delete all stuff owned by user
     for stuff in models.Stuff.query.filter_by(user_id=user.id).all():

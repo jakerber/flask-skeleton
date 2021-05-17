@@ -57,7 +57,7 @@
 						"header": [
 							{
 								"key": "auth_token",
-								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA4MDA2NzEsImlhdCI6MTYyMDgwMDQ5MSwic3ViIjoyLCJpcGEiOiIxMjcuMC4wLjEifQ.OijYY0CvOb3w-Noh_ZLNcWWC3iET8CzCH8E1RiWb3FI",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTY5NTMsImlhdCI6MTYyMTIxNjQ1Mywic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.J4vybS9yKS_g2-iVkc20XAx-8jBGrA3FiYQ_UQkqxgo",
 								"type": "text"
 							}
 						],
@@ -90,17 +90,17 @@
 							"formdata": [
 								{
 									"key": "phone",
-									"value": "1111111111",
+									"value": "4444444444",
 									"type": "text"
 								},
 								{
 									"key": "name",
-									"value": "josh",
+									"value": "new-user",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "josh-password",
+									"value": "new-user-password",
 									"type": "text"
 								}
 							]
@@ -123,30 +123,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "get blacklisted tokens (test)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:5000/api/v1/tokens",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"v1",
-								"tokens"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -163,7 +139,7 @@
 						"header": [
 							{
 								"key": "auth_token",
-								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA4MDA2NzEsImlhdCI6MTYyMDgwMDQ5MSwic3ViIjoyLCJpcGEiOiIxMjcuMC4wLjEifQ.OijYY0CvOb3w-Noh_ZLNcWWC3iET8CzCH8E1RiWb3FI",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
 								"type": "text"
 							}
 						],
@@ -197,7 +173,7 @@
 						"header": [
 							{
 								"key": "auth_token",
-								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3OTk0NDAsImlhdCI6MTYyMDc5OTI2MCwic3ViIjoyLCJpcGEiOiIxMjcuMC4wLjEifQ.iGXbR6z59jcZkXskATpxaPKPd8AIYFC_6awhuM_tvKo",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
 								"type": "text"
 							}
 						],
@@ -242,7 +218,7 @@
 						"header": [
 							{
 								"key": "auth_token",
-								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3OTk0MDQsImlhdCI6MTYyMDc5OTIyNCwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.BsP1t0UlePOEa716lnzGzmJOFKDkNy3Tjy0_ZdfRv4w",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
 								"type": "text"
 							}
 						],
@@ -274,30 +250,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "get users (test)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:5000/api/v1/users",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -314,7 +266,7 @@
 						"header": [
 							{
 								"key": "auth_token",
-								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3OTk0NDAsImlhdCI6MTYyMDc5OTI2MCwic3ViIjoyLCJpcGEiOiIxMjcuMC4wLjEifQ.iGXbR6z59jcZkXskATpxaPKPd8AIYFC_6awhuM_tvKo",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
 								"type": "text"
 							}
 						],
@@ -348,7 +300,7 @@
 						"header": [
 							{
 								"key": "auth_token",
-								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3OTk0NDAsImlhdCI6MTYyMDc5OTI2MCwic3ViIjoyLCJpcGEiOiIxMjcuMC4wLjEifQ.iGXbR6z59jcZkXskATpxaPKPd8AIYFC_6awhuM_tvKo",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
 								"type": "text"
 							}
 						],
@@ -357,7 +309,7 @@
 							"formdata": [
 								{
 									"key": "description",
-									"value": "more-stuff-joey-owns",
+									"value": "stuff-josh-owns-2",
 									"type": "text"
 								}
 							]
@@ -388,7 +340,7 @@
 						"header": [
 							{
 								"key": "auth_token",
-								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3OTk0NDAsImlhdCI6MTYyMDc5OTI2MCwic3ViIjoyLCJpcGEiOiIxMjcuMC4wLjEifQ.iGXbR6z59jcZkXskATpxaPKPd8AIYFC_6awhuM_tvKo",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
 								"type": "text"
 							}
 						],
@@ -397,12 +349,12 @@
 							"formdata": [
 								{
 									"key": "description",
-									"value": "stuff-joey-owns-updated",
+									"value": "stuff-josh-owns-updated",
 									"type": "text"
 								},
 								{
 									"key": "id",
-									"value": "1",
+									"value": "16",
 									"type": "text"
 								}
 							]
@@ -433,7 +385,7 @@
 						"header": [
 							{
 								"key": "auth_token",
-								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3OTk0NDAsImlhdCI6MTYyMDc5OTI2MCwic3ViIjoyLCJpcGEiOiIxMjcuMC4wLjEifQ.iGXbR6z59jcZkXskATpxaPKPd8AIYFC_6awhuM_tvKo",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
 								"type": "text"
 							}
 						],
@@ -442,7 +394,7 @@
 							"formdata": [
 								{
 									"key": "id",
-									"value": "1",
+									"value": "16",
 									"type": "text"
 								}
 							]
@@ -465,14 +417,25 @@
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
 				{
-					"name": "get all stuff (test)",
+					"name": "get blacklisted tokens",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "auth_token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://127.0.0.1:5000/api/v1/stuffs",
+							"raw": "http://127.0.0.1:5000/api/v1/admin/tokens",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -484,7 +447,155 @@
 							"path": [
 								"api",
 								"v1",
-								"stuffs"
+								"admin",
+								"tokens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all stuff",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth_token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/v1/admin/stuff",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"stuff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth_token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/v1/admin/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth_token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/v1/admin/user",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "auth_token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyMTcwMTEsImlhdCI6MTYyMTIxNjUxMSwic3ViIjoxLCJpcGEiOiIxMjcuMC4wLjEifQ.OQ2uTL8P6a9TNeFWmlp4_724YCtA23mzgTCc66ZrKT4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/v1/admin/user",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"user"
 							]
 						}
 					},
